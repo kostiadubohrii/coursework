@@ -17,6 +17,20 @@ class Category(models.Model):
       verbose_name = 'Category name'
       verbose_name_plural = 'Category names'
 
+
+class Reviews(models.Model):
+   user_review = models.FloatField(blank=True, null=True, default=None,
+                              validators = [MinValueValidator(0.0), MaxValueValidator(5.0)])
+   user = models.CharField(max_length=64, blank=True, null=True, default=None)
+   created_at = models.DateTimeField(auto_now_add=True)
+
+   def __str__(self):
+       return "%s %.2f" % (self.user, self.user_review)
+
+   class Meta:
+      verbose_name = 'User review'
+      verbose_name_plural = 'User reviews'
+      
 class Product(models.Model):
    name = models.CharField(max_length=64, blank=True, null=True, default=None)
    description = models.TextField(blank=True, null=True, default=None)
@@ -26,8 +40,7 @@ class Product(models.Model):
    isApple = models.BooleanField(default=False)
    isActive = models.BooleanField(default=True)
    mainImage = models.ImageField(upload_to='Images/', default='Images/None/No0img.jpg')
-   review = models.FloatField(blank=True, null=True, default=None,
-                              validators = [MinValueValidator(0.0), MaxValueValidator(5.0)],)
+   review = models.FloatField(blank=True, null=True, default=None)
    created_at = models.DateTimeField(auto_now_add=True)
               
    def __str__(self):

@@ -1,10 +1,10 @@
-from .models import Product
-from .serializers import ProductSerializer
+from .models import Product, Reviews
+from .serializers import ProductSerializer, ReviewSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def products_list(request, format=None):
 
     if request.method == 'GET':
@@ -19,7 +19,7 @@ def products_list(request, format=None):
         return Response(serializer, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def product_detail(request, id, format=None):
 
     try: 
@@ -39,3 +39,40 @@ def product_detail(request, id, format=None):
     elif request.method == 'DELETE':
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'POST'])
+def product_review(request, format=None):
+    if request.method == 'GET':
+        reviews = Reviews.objects.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = ReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+            reviews = Reviews.objects.all()
+            mean_review = calculateMeanReview(reviews)
+            # Update the review field in the Product instance
+            product = serializer.instance.product
+            product.review = review 
+            product.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def calculateMeanReview(data_list):
+    revs = 0
+    i = 0
+    for rev in data_list:
+        revs += rev.user_review
+        i += 1
+    
+    mean_review = round(revs/i, 1)
+    return mean_review
+
+reviews = Reviews.objects.all()
+calculateMeanReview(reviews)
+

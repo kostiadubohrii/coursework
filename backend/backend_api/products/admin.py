@@ -12,14 +12,18 @@ class ProductAdmin (admin.ModelAdmin):
         model = Product
 
 admin.site.register(Product, ProductAdmin)
+# ----------------------------- Dont need it now
 
-class ProductImageAdmin (admin.ModelAdmin):
-    list_display = [field.name for field in ProductImage._meta.fields]
+# class ProductImageAdmin (admin.ModelAdmin):
+#     list_display = [field.name for field in ProductImage._meta.fields]
 
-    class Meta:
-        model = ProductImage
+#     class Meta:
+#         model = ProductImage
 
-admin.site.register(ProductImage, ProductImageAdmin)
+# admin.site.register(ProductImage, ProductImageAdmin)
+
+#------------------------------
+
 
 class ProductLogoAdmin (admin.ModelAdmin):
     list_display = [field.name for field in ProductLogo._meta.fields]
@@ -36,3 +40,12 @@ class CategoryAdmin (admin.ModelAdmin):
         model = Category
 
 admin.site.register(Category, CategoryAdmin)
+
+
+class ReviewAdmin (admin.ModelAdmin):
+    list_display = [field.name for field in Reviews._meta.fields]
+
+    class Meta:
+        model = Reviews
+
+admin.site.register(Reviews, ReviewAdmin)

@@ -26,7 +26,6 @@ class Reviews(models.Model):
 
    def __str__(self):
        return "%s %.2f" % (self.user, self.user_review)
-
    class Meta:
       verbose_name = 'User review'
       verbose_name_plural = 'User reviews'

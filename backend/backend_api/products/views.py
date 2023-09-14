@@ -52,27 +52,24 @@ def product_review(request, format=None):
         serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-
-            reviews = Reviews.objects.all()
-            mean_review = calculateMeanReview(reviews)
-            # Update the review field in the Product instance
-            product = serializer.instance.product
-            product.review = review 
-            product.save()
+            
+            update_mean_value()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def calculateMeanReview(data_list):
-    revs = 0
-    i = 0
-    for rev in data_list:
-        revs += rev.user_review
-        i += 1
-    
-    mean_review = round(revs/i, 1)
-    return mean_review
 
-reviews = Reviews.objects.all()
-calculateMeanReview(reviews)
+def update_mean_value(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    reviews = Reviews.objects.filter(product=product)
+
+    total_reviews = 0
+    mean_review = 0.0
+
+    if reviews.count() > 0:
+        total_reviews = reviews.count()
+        mean_review = sum(review.user_review for review in reviews) / total_reviews
+
+    product.review = mean_review
+    product.save()
 

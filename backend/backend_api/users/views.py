@@ -8,8 +8,8 @@ from rest_framework import status # import status of the erors
 def users_list(request, format=None):
 
     if request.method == 'GET':
-        drinks = User.objects.all()
-        serializer = UserSerializer(drinks, many=True)
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
@@ -22,19 +22,19 @@ def users_list(request, format=None):
 def user_detail(request, id, format=None):
 
     try:
-        drink = User.objects.get(pk=id)
+        user = User.objects.get(pk=id)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = UserSerializer(drink)
+        serializer = UserSerializer(user)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = UserSerializer(drink, data=request.data)
+        serializer = UserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
-        drink.delete()
+        user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

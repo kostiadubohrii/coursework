@@ -3,6 +3,7 @@ from django.urls import path
 from users.views import users_list, user_detail
 from products.views import products_list, product_detail, product_review
 from orders.views import orders_list, order_detail
+from options.views import options_list, option_detail
 
 # Come import to enable usavility of the images in API.
 from django.conf.urls.static import static
@@ -16,7 +17,9 @@ urlpatterns = [
     path('products/', products_list),
     path('products/<int:id>', product_detail),
     path('orders/', orders_list),
-    path('orders/<int:id>', order_detail)
+    path('orders/<int:id>', order_detail),
+    path('options/', options_list),
+    path('options/<int:id>', option_detail),  
     # path('products/reviews/', product_review),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -33,7 +33,7 @@ class Reviews(models.Model):
 class Product(models.Model):
    name = models.CharField(max_length=64, blank=True, null=True, default=None)
    description = models.TextField(blank=True, null=True, default=None)
-   category = models.ForeignKey(Category, blank=True, null=True, default=None, on_delete=models.CASCADE)
+   category = models.ForeignKey(Category, blank=True, null=True, default=None, on_delete=models.SET_NULL)
    price = models.IntegerField(blank=True, null=True, default=None)
    oldPrice = models.IntegerField(blank=True, null=True, default=None)
    isApple = models.BooleanField(default=False)

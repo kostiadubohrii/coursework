@@ -6,7 +6,6 @@ from rest_framework import status
 
 @api_view(['GET', 'POST'])
 def orders_list(request, format=None):
-
     if request.method == 'GET':
         orders = Order.objects.all()
         serializer = OrderSerializer(orders, many=True)
@@ -25,7 +24,6 @@ def order_detail(request, id, format=None):
         order = Order.objects.get(pk=id)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     if request.method == 'GET':
         serializer = OrderSerializer(order)
         return Response(serializer.data)

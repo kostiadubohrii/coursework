@@ -1,0 +1,11 @@
+{
+    "orderData": {
+         "userId": "3",
+         "orderOn": "2023-10-01"
+    },
+    "orderLineData": {
+         "product": "1",
+         "quantity": 1,
+         "totalPrice": 502
+    }
+}

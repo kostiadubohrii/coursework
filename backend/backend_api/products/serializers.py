@@ -43,5 +43,3 @@ class ProductSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['category'] = representation['category']['category']
         return representation
-
-

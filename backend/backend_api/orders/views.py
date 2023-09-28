@@ -46,6 +46,7 @@ def order_and_orderline_spread(request, format=None):
 
         order_data = data.get('orderData', {})
         order_line_data = data.get('orderLineData', {})
+        print("ORDER LINE DATA ENDPOINT:", order_line_data.get('products'))
 
         order_serializer = OrderSerializer(data = {
             "userId": order_data.get('userId'),
@@ -57,7 +58,7 @@ def order_and_orderline_spread(request, format=None):
 
             orderLine_serializer = OrderLineSerializer(data = {
                 "orderId": order_instance.orderId,
-                "product": order_line_data.get('product'),
+                "products": order_line_data.get('products'),
                 "quantity": order_line_data.get('quantity'),
                 "totalPrice": order_line_data.get('totalPrice'),
             })

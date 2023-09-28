@@ -4,7 +4,10 @@
          "orderOn": "2023-10-01"
     },
     "orderLineData": {
-         "product": "1",
+         "products": [
+          {"product": 1},
+          {"product": 3}
+         ],
          "quantity": 1,
          "totalPrice": 502
     }

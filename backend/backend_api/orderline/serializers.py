@@ -8,13 +8,13 @@ class OrderLineProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderLineProduct
-        fields = ["product"]
+        fields = ["product", "quantity"]
 
 class OrderLineSerializer(serializers.ModelSerializer):
     products = OrderLineProductSerializer(many=True, source="orderlineproduct_set")
     class Meta:
         model = OrderLine
-        fields = ['orderLineId', 'orderId', 'products', 'quantity', 'totalPrice']
+        fields = ['orderLineId', 'orderId', 'products', 'totalPrice']
     
     def create(self, validated_data):
         print(validated_data)

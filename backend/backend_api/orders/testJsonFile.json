@@ -5,10 +5,11 @@
     },
     "orderLineData": {
          "products": [
-          {"product": 1},
-          {"product": 3}
+          {"product": 1,
+          "quantity": 3},
+          {"product": 3,
+          "quantity": 1}
          ],
-         "quantity": 1,
          "totalPrice": 502
     }
 }

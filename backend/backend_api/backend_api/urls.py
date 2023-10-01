@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from users.views import users_list, user_detail
-from products.views import products_list, product_detail, product_review
+from products.views import products_list, product_detail, product_review_list, product_reviews_detail
 from orders.views import orders_list, order_detail, order_and_orderline_spread
 from orderline.views import orderLines_list, orderLine_detail
 
@@ -20,7 +20,8 @@ urlpatterns = [
     path('orders/<int:id>', order_detail),
     path('orderline/', orderLines_list),
     path('orderline/<int:id>', orderLine_detail),  
-    path('orderspreading/', order_and_orderline_spread)
-    # path('products/reviews/', product_review),
+    path('orderspreading/', order_and_orderline_spread),
+    path('products/reviews/', product_review_list),
+    path('products/reviews/<int:id>', product_reviews_detail)
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

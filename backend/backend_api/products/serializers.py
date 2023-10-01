@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, ProductImage, ProductLogo, Category, Reviews
+from .models import Product, ProductImage, ProductLogo, Category, Reviews, ReviewLine
 
 class ProductImageSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(max_length=None, use_url=True)
@@ -17,12 +17,25 @@ class CategorySerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reviews
-        fields = '__all__'
+        fields = [
+            'id',
+            'product',
+            'user',
+            'review'
+        ]
+
+class ReviewLineSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ReviewLine
+        fields = [
+            'meanReview'
+        ]
 class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True, source='productimage_set')
     mainImage = serializers.ImageField(max_length=None, use_url=True, required=False, allow_null=True)
     category = CategorySerializer()
-    review = ReviewSerializer()
+    meanReview = ReviewLineSerializer().get_value
 
     class Meta:
         model = Product 
@@ -36,7 +49,7 @@ class ProductSerializer(serializers.ModelSerializer):
                   'category', 
                   'mainImage', 
                   'images', 
-                  'review',
+                  'meanReview',
                   'created_at',
                   ]
     def to_representation(self, instance):

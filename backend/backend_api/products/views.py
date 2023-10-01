@@ -37,9 +37,9 @@ def product_detail(request, id, format=None):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'DELETE':
-        product.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # elif request.method == 'DELETE':
+    #     product.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['POST', 'GET'])
@@ -60,7 +60,7 @@ def product_review_list(request, format=None):
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['GET','PUT', 'POST', 'DELETE'])
+@api_view(['GET','PUT', 'DELETE'])
 def product_reviews_detail(request, id, format=None):
 
     try: 

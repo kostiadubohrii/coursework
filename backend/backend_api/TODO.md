@@ -1,4 +1,4 @@
-## Planning 
+## TODO 
 
 - Unable POST and GET requests to some of the endpoints what are not supposed to get such requests.
 - Rename url for orderline and order enpoint 

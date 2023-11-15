@@ -20,7 +20,7 @@ urlpatterns = [
     path('orders/<int:id>', order_detail),
     path('orderline/', orderLines_list),
     path('orderline/<int:id>', orderLine_detail),  
-    path('orderspreading/', order_and_orderline_spread),
+    path('processorder/', order_and_orderline_spread),
     path('products/reviews/', product_review_list),
     path('products/reviews/<int:id>', product_reviews_detail)
 

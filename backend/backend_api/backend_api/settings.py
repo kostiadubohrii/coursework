@@ -26,6 +26,13 @@ INSTALLED_APPS = [
     'orderline'
 ]
 
+REST_FRAMEWORK = {
+    'DATE_INPUT_FORMATS': [
+        '%Y-%m-%d',
+        '%y-%m-%d', 
+    ]
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-@api_view(['GET', 'POST'])
+
+@api_view(['GET'])
 def products_list(request, format=None):
 
     if request.method == 'GET':
@@ -20,23 +21,23 @@ def products_list(request, format=None):
         return Response(serializer, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def product_detail(request, id, format=None):
 
     try: 
         product = Product.objects.get(pk=id)
     except:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response({"detail": f"Product with id: {id} does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = ProductSerializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'PUT':
-        serializer = ProductSerializer(product, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # elif request.method == 'PUT':
+    #     serializer = ProductSerializer(product, data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     # elif request.method == 'DELETE':
     #     product.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
@@ -48,11 +49,20 @@ def product_review_list(request, format=None):
         data = request.data
         product_id = data.get('product')
         user_id = data.get('user')
-        serializer = ReviewSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            updateMeanReview(product_id)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        review = data.get('review')
+        if Reviews.objects.filter(user=user_id, product=product_id).exists(): 
+            return Response({"detail": f"User with user id: {user_id} has alredy left review. Alter review that has been left by user, or delete it and make request again"},
+                            status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if float(review) <= 5 and float(review) >= 0:
+                serializer = ReviewSerializer(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    updateMeanReview(product_id)
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"detail":  "Check review field. Review must be in range 0 to 5"}, status=status.HTTP_400_BAD_REQUEST)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
@@ -66,7 +76,7 @@ def product_reviews_detail(request, id, format=None):
     try: 
         review = Reviews.objects.get(pk=id)
     except:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response({"detail": f"Review with id: {id} does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = ReviewSerializer(review)

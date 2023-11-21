@@ -1,0 +1,72 @@
+.container-title{
+    color: rgb(102, 102, 102);
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 20px;
+
+}
+.section_general-data{
+    display: flex;
+    justify-content: space-around;
+}
+.section_doughnuts{
+    width: 800px;
+    background-color: #f8f8f8;
+}
+.divider{
+    display: flex;
+    justify-content: space-around;
+}
+.section_order-month{
+    background-color: #f8f8f8;
+}
+
+.section_order-month >.title-settings{
+    background-color: rgb(121, 174, 200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+}
+.section_order-month >.title-settings > .settings > form >input{
+    margin-right: 10px;
+}
+.section_order-month >.title-settings > .title{
+    font-size: 18px;
+}
+
+
+.doughtnut_top-products > .title-settings > .title{
+    background-color: rgb(121, 174, 200);
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    text-align: center;
+}
+.doughtnut_top-products > .title-settings > .settings > .btn{
+    background-color: white;
+    border-bottom-color: white;
+}
+.btn-group{
+    display: flex;
+}
+.btn-group > .btn-check{
+    color: #000;
+}
+.btn{
+    background-color: white;
+
+}
+
+
+.orders-month-chart {
+    width: 800px;
+}
+.products-income-chart{
+    width: 300px;
+}
+.produts-ordered-chart{
+    width: 300px;
+}

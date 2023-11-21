@@ -1,15 +1,19 @@
 {
-    "orderData": {
-         "userId": "2",
-         "orderOn": "2023-12-01"
-    },
-    "orderLineData": {
-         "products": [
-          {"product": 1,
-          "quantity": 1},
-          {"product": 3,
-          "quantity": 2}
-         ],
-         "totalPrice": 308
-    }
-}
+     "orderData": {
+          "userId": "3",
+          "orderOn": "2023-12-07"
+     },
+     "orderLineData": {
+          "products": [
+           {"product": 1,
+           "quantity": 1},
+           {"product": 5,
+           "quantity": 1},
+            {"product": 3,
+           "quantity": 3},
+           {"product": 6,
+           "quantity": 2}
+          ],
+          "totalPrice": 1248
+     }
+ }

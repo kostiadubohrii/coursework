@@ -97,7 +97,7 @@ def order_and_orderline_spread(request, format=None):
                 error_message["orderOn"] = "This time date is in past"
         
         if internal_product_price != float(order_line_data.get('totalPrice')):
-            error_message["totalPrice"] = "This total price does not equal to the total price on the API."
+            error_message["totalPrice"] = f"This total price does not equal to the total price on the API which is {internal_product_price}"
 
         
         if order_serializer.is_valid():

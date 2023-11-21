@@ -11,21 +11,6 @@
 - Validation must be providedto all of these attributes.
 
 ### Display statistics
-1. Products statistic: 
-* Top 5 popular products(rated by frequecy of purchases)
-* The most reliable products (products with high rating). Such products will be rated, once they get more then 5 rivews.
-* Number of products. Are they in stock. What is out of stock. 
-
-
-### Validation
-* Products validation - done
-* Orders validation:
-* * Add validation to post request of the review on the product must be between 0 and 5 - done 
-* * validate a date of order on. Must not be past date, must loop line 4digit-2digit-2digit. - done
-* * Validate User id must be a digit. Dont bother whether it is sting or number. Also, userID must exist in db - done 
-* * Validation of a price of a product - done
-
-
-### Responses 
-* Products - done 
-* Orders - done
+1. Products statistics
+2. Orders statistics
+3. Users statistics 

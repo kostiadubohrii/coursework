@@ -1,0 +1,92 @@
+{% extends '../admin/base.html' %}
+{% load static%}
+
+{% block title %} Statistics {% endblock %}
+{% block customStyles %}
+    {% static 'css/stat.css' %}
+{% endblock %}
+
+{% block header %}
+    <!-- {{ block.super }} -->
+    <!-- Additional header content specific to statistics.html if needed -->
+{% endblock %}
+
+{% block content %}
+    <!-- <div>
+        <h1>Statistics</h1>
+        <div class="chart-orders" >
+            <div class="orders-title">Ordered products chart:</div>
+            <div class="order-per_mounth">
+                <canvas id="myChart"></canvas>
+              </div>
+        </div>
+        
+    </div> -->
+
+    <div class="custom-container">
+        <h1 class="container-title">Statistics</h1>
+        <div class="section_general-data">
+            <div class="section_order-month">
+                <div class="title-settings">
+                    <div class="title">Orders per month</div>
+                    <div class="settings">
+                        <form action="#">
+                            <label for="year2023" class="form-check-label">For 2023</label>
+                            <input class="form-check-input" type="radio" name="year2023" id="year2023" checked>
+                            <label for="year2024" class="form-check-label">For 2024</label>
+                            <input class="form-check-input" type="radio" name="year2024" id="year2024">
+                        </form>
+                    </div>  
+                </div>
+                <div class="orders-month-chart">
+                    <canvas id="orders-month-chart"></canvas>
+                </div>
+            </div>
+            <div class="section_doughnuts">
+                <div class="divider">
+                    <div class="doughtnut_top-products">
+                        <div class="title-settings">
+                            <div class="title">Top products by income</div>
+                            <div class="setting">
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="btnradio1">TOP 5</label>
+                                  
+                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="btnradio2">TOP 10</label>
+                                  
+                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="btnradio3">TOP 15</label>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="products-income-chart">
+                            <canvas id="products-income-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="doughtnut_ordered-products">
+                        <div class="title">Products ordered</div>
+                        <div class="setting">
+                            <button id="btn-top5">
+                                TOP 5
+                            </button>
+                            <button id="btn-top10">
+                                TOP 10
+                            </button>
+                            <button id="btn-top20">
+                                TOP 20
+                            </button>
+                        </div>
+                        <div class="produts-ordered-chart">
+                            <canvas id="produts-ordered-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>  
+{% endblock %}

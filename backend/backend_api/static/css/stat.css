@@ -5,11 +5,12 @@
     margin-bottom: 20px;
 
 }
-.section_general-data{
+.general-section{
     display: flex;
     justify-content: space-around;
+    margin-bottom: 60px;
 }
-.section_doughnuts{
+.section{
     width: 800px;
     background-color: #f8f8f8;
 }
@@ -30,43 +31,22 @@
     color: rgb(255, 255, 255);
     font-size: 16px;
 }
-.section_order-month >.title-settings > .settings > form >input{
-    margin-right: 10px;
-}
 .section_order-month >.title-settings > .title{
     font-size: 18px;
 }
 
-
-.doughtnut_top-products > .title-settings > .title{
+.doughtnut > .title-settings > .title{
     background-color: rgb(121, 174, 200);
     padding: 10px;
     color: rgb(255, 255, 255);
     font-size: 18px;
     text-align: center;
 }
-.doughtnut_top-products > .title-settings > .settings > .btn{
-    background-color: white;
-    border-bottom-color: white;
-}
+
 .btn-group{
     display: flex;
 }
-.btn-group > .btn-check{
-    color: #000;
-}
-.btn{
-    background-color: white;
-
-}
-
-
-.orders-month-chart {
-    width: 800px;
-}
-.products-income-chart{
+.diagram{
     width: 300px;
 }
-.produts-ordered-chart{
-    width: 300px;
-}
+

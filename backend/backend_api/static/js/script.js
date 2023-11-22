@@ -1,7 +1,7 @@
 const ctx = document.getElementById('orders-month-chart');
 const ctxx = document.getElementById('products-income-chart');
 const ctxxx = document.getElementById('produts-ordered-chart');
-
+const ctxxxx = document.getElementById('line-chart');
 
 fetch('http://127.0.0.1:8000/statistics_data/')
     .then(response => response.json())
@@ -98,5 +98,21 @@ const setChart = (data) => {
                 hoverOffset: 4
               }]
         }
+    })
+
+    // const labels = Utils.months({count: 7});
+
+    new Chart(ctxxxx, {
+      type: 'line',
+      data: {
+        labels: ['december','december','december','december','december','december','december'],
+        datasets: [{
+          label: 'My First Dataset',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }]
+      }
     })
 }

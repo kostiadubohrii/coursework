@@ -25,8 +25,8 @@
 
     <div class="custom-container">
         <h1 class="container-title">Statistics</h1>
-        <div class="section_general-data">
-            <div class="section_order-month">
+        <div class="general-section">
+            <div class="section section_order-month">
                 <div class="title-settings">
                     <div class="title">Orders per month</div>
                     <div class="settings">
@@ -42,48 +42,79 @@
                     <canvas id="orders-month-chart"></canvas>
                 </div>
             </div>
-            <div class="section_doughnuts">
+            <div class="section section_doughnuts">
                 <div class="divider">
-                    <div class="doughtnut_top-products">
+                    <div class="doughtnut doughtnut_top-products">
                         <div class="title-settings">
                             <div class="title">Top products by income</div>
                             <div class="setting">
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                                    <label class="btn btn-outline-primary" for="btnradio1">TOP 5</label>
-                                  
-                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="btnradio2">TOP 10</label>
-                                  
-                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="btnradio3">TOP 15</label>
+                                <div class="btn-group" role="group1" aria-label="Basic radio toggle button group">
+                                    <button type="button" class="btn btn-outline-primary">TOP 5</button>
+                                    <button type="button" class="btn btn-outline-primary">TOP 10</button>
+                                    <button type="button" class="btn btn-outline-primary">TOP 15</button>
                                   </div>
                             </div>
                         </div>
-                        <div class="products-income-chart">
+                        <div class="diagram products-income-chart">
                             <canvas id="products-income-chart"></canvas>
                         </div>
                     </div>
-                    <div class="doughtnut_ordered-products">
-                        <div class="title">Products ordered</div>
-                        <div class="setting">
-                            <button id="btn-top5">
-                                TOP 5
-                            </button>
-                            <button id="btn-top10">
-                                TOP 10
-                            </button>
-                            <button id="btn-top20">
-                                TOP 20
-                            </button>
+                    <div class="doughtnut doughtnut_ordered-products">
+                        <div class="title-settings">
+                            <div class="title">Products ordered</div>
+                            <div class="setting">
+                                <div class="btn-group" role="group2" aria-label="Basic radio toggle button group">
+                                    <button type="button" class="btn btn-outline-primary">TOP 5</button>
+                                    <button type="button" class="btn btn-outline-primary">TOP 10</button>
+                                    <button type="button" class="btn btn-outline-primary">TOP 15</button>
+                                  </div>
+                            </div>
                         </div>
-                        <div class="produts-ordered-chart">
+                        <div class="diagram produts-ordered-chart">
                             <canvas id="produts-ordered-chart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="specific-data">
+            <div class="general-section">
+                <div class="section section_order-month">
+                    <div class="title-settings">
+                        <div class="title">Orders per month</div>
+                        <div class="settings">
+                            <form action="#">
+                                <label for="year2023" class="form-check-label">For 2023</label>
+                                <input class="form-check-input" type="radio" name="year2023" id="year2023" checked>
+                                <label for="year2024" class="form-check-label">For 2024</label>
+                                <input class="form-check-input" type="radio" name="year2024" id="year2024">
+                            </form>
+                        </div>  
+                    </div>
+                    <div class="orders-month-chart">
+                        <canvas id="line-chart"></canvas>
+                    </div>
+                </div>
+                <div class="section section_order-month">
+                    <div class="title-settings">
+                        <div class="title">Orders per month</div>
+                        <div class="settings">
+                            <form action="#">
+                                <label for="year2023" class="form-check-label">For 2023</label>
+                                <input class="form-check-input" type="radio" name="year2023" id="year2023" checked>
+                                <label for="year2024" class="form-check-label">For 2024</label>
+                                <input class="form-check-input" type="radio" name="year2024" id="year2024">
+                            </form>
+                        </div>  
+                    </div>
+                    <div class="orders-month-chart">
+                        <canvas id="orders-month-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 

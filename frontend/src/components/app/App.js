@@ -1,11 +1,11 @@
-import AdminPanel from "../adminPanel/AdminPanel";
-import Statistics from "../statPage/Statistics";
+import AppPanel from "../appPanel/AppPanel";
+import ChartsSection from "../chartsSection/ChartsSection";
 
 function App() {
   return (
     <>
-      <AdminPanel/>
-      <Statistics/>
+      <AppPanel/>
+      <ChartsSection/>
     </>
   );
 }

@@ -1,7 +1,7 @@
 import "./styles.scss";
 
 
-const AdminPanel = () => {
+const AppPanel = () => {
 
     return (
         <main className="header">
@@ -17,4 +17,4 @@ const AdminPanel = () => {
     )
 }   
 
-export default AdminPanel;
+export default AppPanel;

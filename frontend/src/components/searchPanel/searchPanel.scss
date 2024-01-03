@@ -1,0 +1,27 @@
+.search {
+    .dropdown {
+        position: fixed;
+        max-height: 140px;
+        width: 215px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        overflow-y: scroll;
+        ul {
+            padding-top: 5px;
+            padding: 0;
+            margin: 0;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            li {
+                padding-left: 10px;
+                height: 30px;
+                font-size: 18px;
+                cursor: pointer;
+                &:hover {
+                    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+                 }
+            }
+            
+        }
+    }
+}

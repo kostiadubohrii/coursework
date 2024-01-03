@@ -1,14 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react'; 
 
 import Form from 'react-bootstrap/Form';
-import './styles.scss';
-import {Line} from 'react-chartjs-2';
-import {Chart as ChartJS} from 'chart.js/auto';
+import './searchPanel.scss';
 
 
-const SearchPanel = () => {
+const SearchPanel = (props) => {
 	const [name, setName] = useState('');
-	const [data, setData] = useState([{ name: 'Apple Iphone' }, { name: 'Apple watch' }, { name: 'HP M27fq' }]);
+	const [data, setData] = useState([{ name: 'Apple Iphone', values: [5, 6, 3, 15, 16, 19, 26, 20, 18, 15, 14, 15] }, { name: 'Apple watch', values: [5, 6, 2, 15, 8, 20, 24, 20, 4, 15, 14, 5] }, { name: 'HP M27fq', values: [1, 6, 3, 12, 16, 9, 14, 6, 18, 15, 12, 1] }]);
 	const [results, setResults] = useState([]);
 	const [product, setProduct] = useState(null);
 
@@ -64,12 +62,17 @@ const SearchPanel = () => {
 
 	const handleItemClick = (product) => {
 		setProduct(product)
+		props.onProductSelected(product)
+		toggleDisplay(true)
+		clearInput()
 	}
 
-	useEffect(() => {
-		toggleDisplay(true)
-	}, [product])
+	const inputRef = useRef();
 
+	const clearInput = () => {
+		setName('');
+		inputRef.current.value = '';
+	}
 
 	return (
 	  <>
@@ -77,7 +80,9 @@ const SearchPanel = () => {
 		 		type="name" 
 				id="name" 
 				onChange={(e) => handleChange(e)} 
-				onClick={handleClick}/>
+				onClick={handleClick}
+				ref={inputRef}
+				/>
 		 <div className="dropdown display-none" ref={dropdownRef}>
 			<ul>
 				{
@@ -89,33 +94,6 @@ const SearchPanel = () => {
 		 </div>
 	  </>
 	);
- };
+};
 
-const ProductChart = () => {
-	const [userData, setUserData] = useState({
-			labels: ['Jun', 'Jul', 'Aug','Sep','Oct','Nov','Dec','Jan','Feb',"Mar",'Apr','May'],
-			datasets:[
-				{	
-					label: 'Iphone',
-					data: [5, 6, 3, 15, 16, 19, 21, 20, 18, 15, 14, 15],
-					}
-			]
-  		});
-
-	
-    return (
-        <div class="section">
-            <div class="section_settings">
-                <div class="title">A product's history of selling</div>
-                <div class="search">
-                   <SearchPanel/>
-                </div>
-            </div>
-            <div class="chart">
-                <Line data={userData}/>
-            </div> 
-        </div>
-    )
-}
-
-export default ProductChart;
+export default SearchPanel;

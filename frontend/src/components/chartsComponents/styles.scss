@@ -18,6 +18,19 @@
                 .search-panel{
                     width: 215px;
                 }
+
+            }
+            .products-menu {
+                display: flex;
+                margin-top: 10px;
+                padding: 0 5px 10px 5px ;
+                .button-wrapper{
+                    margin-right: 8px;
+                    cursor: pointer;
+                }
+                .button-wrapper:last-child{
+                    margin-right: 0px;
+                }
             }
             
         }
@@ -29,4 +42,8 @@
 }
 .display-block {
     display: block;
+}
+.alert-warning{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

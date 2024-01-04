@@ -3,26 +3,43 @@ export const globalData = [
         id: 1,
         name: 'Apple Iphone',
         revenue: [80000, 37000, 35000, 37000, 87000, 96500],
+        year: '2023',
     },
     {
         id: 2,
         name: 'Apple watch',
         revenue: [17304, 35000, 35000, 37000, 37000, 37000],
+        year: '2023',
     },
     {
         id: 3,
         name: 'HP M27fq',
         revenue: [54700, 37000, 37000, 17304, 37000, 37000],
+        year: '2023',
     },
     {
         id: 4,
         name: 'Apple airpods pro 2',
-        revenue: [60000, 37000, 37000, 37000, 37000, 37000] ,
+        revenue: [60000, 37000, 37000, 37000, 37000, 37000],
+        year: '2023',
     },
     {
         id: 5,
         name: 'Google buds pro',
-        revenue: [90000, 37000, 37000, 37000, 37000, 37000],
+        revenue: [12000],
+        year: '2024',
+    },
+    {
+        id: 6,
+        name: 'Google buds pro 2',
+        revenue: [10000],
+        year: '2024',
+    },
+    {
+        id: 6,
+        name: 'Macbook pro',
+        revenue: [19000],
+        year: '2024',
     },
 ];
 

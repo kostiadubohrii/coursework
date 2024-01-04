@@ -1,21 +1,24 @@
-import { useState } from 'react'; 
+import { useEffect, useState } from 'react'; 
 
-import {ButtonGroup, Button} from 'react-bootstrap';
+import {ButtonGroup, Button, Alert, ToggleButton} from 'react-bootstrap';
 import './styles.scss';
 import {Bar} from 'react-chartjs-2';
 import {Chart as ChartJS} from 'chart.js/auto';
 
 import {globalData} from '../../services/data';
 import SearchPanel from '../searchPanel/SearchPanel';
-
+import { LimAlert, ExistAlert } from '../alertMessages/alertMessages';
 
 const BarChart = () => {
     const [userData, setUserData] = useState({
         labels: ['Jun', 'Jul', 'Aug','Sep','Oct','Nov'],
         // ,'Dec','Jan','Feb',"Mar",'Apr','May'
-        datasets: [{}]
+        datasets: [{label: 'Select a product', }]
     });
-    const [years, setYears] = useState(['2023','2024'])
+    const [years, setYears] = useState(['2023','2024']);
+    const [curYear, setCurYear] = useState(years[years.length - 1])
+    const [limAlert, setLimAlert] = useState(false);
+    const [existAlert, setExistAlert] = useState(false);
 
     const onProductSelected = (data) => {
         const newData  = {   
@@ -23,23 +26,58 @@ const BarChart = () => {
             label: data.name,
             data: data.revenue
         }
-
-        const productExists = userData.datasets.find(item => item.id === newData.id);
+        
         if (userData.datasets[0].id === undefined){
             setUserData(prevState => ({
                 ...prevState,
                 datasets: []
             }))
         }
-
+        const productExists = userData.datasets.find(item => item.id === newData.id);
+        
         if (!productExists) {
-            setUserData(prevState => ({
-                ...prevState,
-                datasets: [...prevState.datasets, newData]
-            }))
+            if (userData.datasets.length < 5){
+                setUserData(prevState => ({
+                    ...prevState,
+                    datasets: [...prevState.datasets, newData]
+                }))
+            }else {
+                setLimAlert(true)  
+                setTimeout(() => {
+                    setLimAlert(false)  
+                }, 4000)
+            } 
+        }else {
+            setExistAlert(true)
+            setTimeout(() => {
+                setExistAlert(false)  
+            }, 4000)
         }
+    }
+
+    const onDeleteProduct = (id) => {
+        let length = userData.datasets.filter(item => item.id !== id).length;
+        setUserData(prevState => ({
+            ...prevState,
+            datasets: length ? prevState.datasets.filter(item => item.id !== id): [{'label': 'Select a product'}]
+        }))
+    }
+
+    const onYearSelected = (year) => {
+        setCurYear(year)
+
+        // setUserData(prevState => ({
+        //     ...prevState,
+        //     datasets: prevState.datasets.filter(elem => elem.year === year)
+        // }))
         
     }
+
+    useEffect(() => {
+        console.log(userData)
+    },[userData])
+
+
     return (
         <div className="section">
             <div className="section_settings_large">
@@ -50,14 +88,33 @@ const BarChart = () => {
                     </div>
                     <ButtonGroup>
                         {
-                            years.map((item, i) => {
-                                return <Button variant="secondary" key={i}>Year {item}</Button>
+                            years.map((year, i) => {
+                               return year === curYear ? <ToggleButton variant="success" key={i} onClick={() => onYearSelected(year)}>Year {year}</ToggleButton>
+                                :<ToggleButton variant="outline-success" key={i} onClick={() => onYearSelected(year)}>Year {year}</ToggleButton>
                             })
                         }
                     </ButtonGroup>
-                </div>  
+                </div> 
+                <div className="alerts">
+                    { limAlert ? <LimAlert/> : null}
+                    { existAlert ? <ExistAlert/> : null}
+                </div> 
+                <div className="products-menu">
+                    {
+                        userData.datasets.map((item, i) => {
+                            if (item.id === undefined) {
+                                return null
+                            }
+                            return (
+                                <div className="button-wrapper">
+                                    <Alert variant="info" key={i} onClick={() => onDeleteProduct(item.id)}>{item.label}</Alert>
+                                </div> 
+                            )
+                        })
+                    }
+                </div>
             </div>
-            <div class="chart">
+            <div className="chart">
                 <Bar data={userData} />
             </div> 
         </div>

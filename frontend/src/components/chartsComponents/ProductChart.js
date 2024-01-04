@@ -5,6 +5,7 @@ import {Line} from 'react-chartjs-2';
 import {Chart as ChartJS} from 'chart.js/auto';
 
 import SearchPanel from '../searchPanel/SearchPanel';
+import { productsData } from '../../services/data';
 
 const ProductChart = () => {
 	const [userData, setUserData] = useState({
@@ -23,7 +24,7 @@ const ProductChart = () => {
 			datasets:[
 				{	
 					...userData.datasets[0],
-					label: data.name,
+					label: data.name + ' sold out',
 					data: data.values,
 					}
 				]
@@ -35,8 +36,8 @@ const ProductChart = () => {
         <div class="section">
             <div class="section_settings">
                 <div class="title">A product order history</div>
-                <div class="search">
-                   <SearchPanel onProductSelected={onProductSelected} />
+                <div class="panel">
+                   <SearchPanel onProductSelected={onProductSelected} data={productsData}/>
                 </div>
             </div>
             <div class="chart">

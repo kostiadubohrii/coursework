@@ -6,7 +6,7 @@ import './searchPanel.scss';
 
 const SearchPanel = (props) => {
 	const [name, setName] = useState('');
-	const [data, setData] = useState([{ name: 'Apple Iphone', values: [5, 6, 3, 15, 16, 19, 26, 20, 18, 15, 14, 15] }, { name: 'Apple watch', values: [5, 6, 2, 15, 8, 20, 24, 20, 4, 15, 14, 5] }, { name: 'HP M27fq', values: [1, 6, 3, 12, 16, 9, 14, 6, 18, 15, 12, 1] }]);
+	const [data, setData] = useState(props.data);
 	const [results, setResults] = useState([]);
 	const [product, setProduct] = useState(null);
 
@@ -75,24 +75,24 @@ const SearchPanel = (props) => {
 	}
 
 	return (
-	  <>
-		 <Form.Control 
+	  	<div className="search">
+		 	<Form.Control 
 		 		type="name" 
 				id="name" 
 				onChange={(e) => handleChange(e)} 
 				onClick={handleClick}
 				ref={inputRef}
 				/>
-		 <div className="dropdown display-none" ref={dropdownRef}>
-			<ul>
-				{
-					results.map((item, i) => {
+			 <div className="dropdown display-none" ref={dropdownRef}>
+				<ul>
+					{
+						results.map((item, i) => {
 						return <li key={i} onClick={() => handleItemClick(item)}>{item.name}</li>
-					})
-				}
-			</ul>
+						})
+					}
+				</ul>
+		 	</div>
 		 </div>
-	  </>
 	);
 };
 

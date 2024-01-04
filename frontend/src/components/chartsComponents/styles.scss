@@ -8,6 +8,19 @@
         .title {
             font-size: 20px;
         }
+        &_large {
+            display: block;
+
+            .menu {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .search-panel{
+                    width: 215px;
+                }
+            }
+            
+        }
     }
 }
 

@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react'; 
+import { useState } from 'react'; 
 
-import {ButtonGroup, Button, Alert, ToggleButton} from 'react-bootstrap';
+import {Alert} from 'react-bootstrap';
 import './styles.scss';
 import {Bar} from 'react-chartjs-2';
 import {Chart as ChartJS} from 'chart.js/auto';
 
-import {globalData} from '../../services/data';
 import SearchPanel from '../searchPanel/SearchPanel';
+import ProductsFilters from '../productsFilters/ProductsFilter';
 import { LimAlert, ExistAlert } from '../alertMessages/alertMessages';
+
+import { fullData } from '../../services/data';
 
 const BarChart = () => {
     const [userData, setUserData] = useState({
@@ -15,10 +17,9 @@ const BarChart = () => {
         // ,'Dec','Jan','Feb',"Mar",'Apr','May'
         datasets: [{label: 'Select a product', }]
     });
-    const [years, setYears] = useState(['2023','2024']);
-    const [curYear, setCurYear] = useState(years[years.length - 1])
     const [limAlert, setLimAlert] = useState(false);
     const [existAlert, setExistAlert] = useState(false);
+    const [filter, setFilter] = useState('2024');
 
     const onProductSelected = (data) => {
         const newData  = {   
@@ -33,6 +34,7 @@ const BarChart = () => {
                 datasets: []
             }))
         }
+        
         const productExists = userData.datasets.find(item => item.id === newData.id);
         
         if (!productExists) {
@@ -64,19 +66,8 @@ const BarChart = () => {
     }
 
     const onYearSelected = (year) => {
-        setCurYear(year)
-
-        // setUserData(prevState => ({
-        //     ...prevState,
-        //     datasets: prevState.datasets.filter(elem => elem.year === year)
-        // }))
-        
-    }
-
-    useEffect(() => {
-        console.log(userData)
-    },[userData])
-
+        setFilter(year);
+    };
 
     return (
         <div className="section">
@@ -84,16 +75,10 @@ const BarChart = () => {
                 <div className="title">Products ordered for a year</div>
                 <div className="menu">
                     <div className="search-panel">
-                        <SearchPanel onProductSelected={onProductSelected} data={globalData}/>
+                        {/* <SearchPanel onProductSelected={onProductSelected} filter={filter} data={fullData}/> */}
                     </div>
-                    <ButtonGroup>
-                        {
-                            years.map((year, i) => {
-                               return year === curYear ? <ToggleButton variant="success" key={i} onClick={() => onYearSelected(year)}>Year {year}</ToggleButton>
-                                :<ToggleButton variant="outline-success" key={i} onClick={() => onYearSelected(year)}>Year {year}</ToggleButton>
-                            })
-                        }
-                    </ButtonGroup>
+
+                    <ProductsFilters onYearSelected={onYearSelected}/>
                 </div> 
                 <div className="alerts">
                     { limAlert ? <LimAlert/> : null}

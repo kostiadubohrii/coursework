@@ -2,33 +2,47 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 
 import Form from 'react-bootstrap/Form';
 import './searchPanel.scss';
+import { fullData } from '../../services/data';
 
-
-const SearchPanel = (props) => {
+const SearchPanel = () => {
 	const [name, setName] = useState('');
-	const [data, setData] = useState(props.data);
+	const [data, setData] = useState(fullData);
 	const [results, setResults] = useState([]);
-	const [product, setProduct] = useState(null);
 
 	const dropdownRef = useRef(null);
+	const inputRef = useRef();
 
-	const handleChange = useCallback((e) => {
-	  setName(e.target.value);
-	}, []);
- 
 	useEffect(() => {
-	  setResults(searchProduct(data, name));
-	}, [name]);
+		document.addEventListener('mousedown', handleClickOutside);
+
+		return () => {
+		  document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [])
+
+	useEffect(() => {
+        setResults(searchProduct(data, name));
+    }, [data, name]);
+
+	// const filterData = (filter, data) => {
+	// 	let results;
+	// 	data.forEach(item => {
+	// 		if (item.year === filter){
+	// 		results = item.data
+	// 		}
+	// 	});
+	// 	return results
+	// }
  
-	function searchProduct(items, name) {
-	  name = name.toLowerCase().replace(/\s/g, '');
-	  if (name.length === 0) {
-		 return items;
-	  }
- 
-	  return items.filter((item) => {
-		 return item.name.toLowerCase().replace(/\s/g, '').indexOf(name) > -1;
-	  });
+	function searchProduct(data, name) {
+		name = name.toLowerCase().replace(/\s/g, '');
+		if (name.length === 0) {
+			return data;
+		}
+	
+		return data.filter((item) => {
+			return item.name.toLowerCase().replace(/\s/g, '').indexOf(name) > -1;
+		});
 	}
 
 	function toggleDisplay(toRemove){
@@ -46,33 +60,22 @@ const SearchPanel = (props) => {
 			toggleDisplay(true)
 		}
 	};
-
-	useEffect(() => {
-		document.addEventListener('mousedown', handleClickOutside);
-
-		return () => {
-		  document.removeEventListener('mousedown', handleClickOutside);
-		};
-
-	}, []);
+	
+	const handleChange = useCallback((e) => {
+		setName(e.target.value);
+	  }, []);
 
 	const handleClick = () => {
 		toggleDisplay(false)
 	}
 
 	const handleItemClick = (product) => {
-		setProduct(product)
-		props.onProductSelected(product)
 		toggleDisplay(true)
-		clearInput()
-	}
-
-	const inputRef = useRef();
-
-	const clearInput = () => {
 		setName('');
 		inputRef.current.value = '';
 	}
+
+	
 
 	return (
 	  	<div className="search">
@@ -85,11 +88,11 @@ const SearchPanel = (props) => {
 				/>
 			 <div className="dropdown display-none" ref={dropdownRef}>
 				<ul>
-					{
-						results.map((item, i) => {
-						return <li key={i} onClick={() => handleItemClick(item)}>{item.name}</li>
-						})
-					}
+					{results && results.map((item, i) => (
+						 <li key={i} onClick={() => handleItemClick(item)}>
+							{item.name}
+						</li>
+					))}
 				</ul>
 		 	</div>
 		 </div>

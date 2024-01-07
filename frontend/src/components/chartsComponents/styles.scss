@@ -2,38 +2,35 @@
     width: 800px;
     margin-top: 10px;
     &_settings {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        display: block;
         .title {
-            font-size: 20px;
+            font-size: 25px;
+            padding: 5px, 0px, 10px, 0px;
         }
-        &_large {
-            display: block;
-
-            .menu {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                .search-panel{
-                    width: 215px;
-                }
-
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .search-panel{
+                width: 215px;
             }
-            .products-menu {
-                display: flex;
-                margin-top: 10px;
-                padding: 0 5px 10px 5px ;
-                .button-wrapper{
-                    margin-right: 8px;
-                    cursor: pointer;
-                }
-                .button-wrapper:last-child{
-                    margin-right: 0px;
-                }
-            }
-            
+            margin-bottom: 10px;
+
         }
+        .products-menu {
+            display: flex;
+            padding: 0 5px 0px 5px ;
+            .button-wrapper{
+                margin-right: 8px;
+                cursor: pointer;
+            }
+            .button-wrapper:last-child{
+                margin-right: 0px;
+            }
+        }
+    }
+    .chart{
+        margin-top: 10px;
     }
 }
 

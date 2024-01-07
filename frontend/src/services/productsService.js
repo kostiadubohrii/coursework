@@ -14,3 +14,8 @@ export const getProductByYear = (year) => {
 
     return res;
 }
+
+export const getYears = () => {
+    const years = fullData.map(item => item.year);
+    return years;
+}

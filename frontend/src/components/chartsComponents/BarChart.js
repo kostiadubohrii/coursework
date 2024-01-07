@@ -1,7 +1,8 @@
-import { useState } from 'react'; 
+import { useEffect, useState } from 'react'; 
 
 import {Alert} from 'react-bootstrap';
 import './styles.scss';
+
 import {Bar} from 'react-chartjs-2';
 import {Chart as ChartJS} from 'chart.js/auto';
 
@@ -9,17 +10,17 @@ import SearchPanel from '../searchPanel/SearchPanel';
 import ProductsFilters from '../productsFilters/ProductsFilter';
 import { LimAlert, ExistAlert } from '../alertMessages/alertMessages';
 
-import { fullData } from '../../services/data';
+import { yearConfig } from '../../services/yearConfit';
 
 const BarChart = () => {
     const [userData, setUserData] = useState({
-        labels: ['Jun', 'Jul', 'Aug','Sep','Oct','Nov'],
+        labels: yearConfig,
         // ,'Dec','Jan','Feb',"Mar",'Apr','May'
         datasets: [{label: 'Select a product', }]
     });
     const [limAlert, setLimAlert] = useState(false);
     const [existAlert, setExistAlert] = useState(false);
-    const [filter, setFilter] = useState('2024');
+    const [year, setYear] = useState('2024');
 
     const onProductSelected = (data) => {
         const newData  = {   
@@ -66,18 +67,31 @@ const BarChart = () => {
     }
 
     const onYearSelected = (year) => {
-        setFilter(year);
+        setYear(prevYear => {
+            if (prevYear === year){
+                return prevYear
+            }else {
+                return year
+            }
+        });
     };
+
+    useEffect(() => {
+        setUserData({
+            labels: yearConfig,
+            // ,'Dec','Jan','Feb',"Mar",'Apr','May'
+            datasets: [{label: 'Select a product', }]
+        })
+    }, [year])
 
     return (
         <div className="section">
-            <div className="section_settings_large">
-                <div className="title">Products ordered for a year</div>
+            <div className="section_settings">
+                <div className="title">Product revenue per year</div>
                 <div className="menu">
                     <div className="search-panel">
-                        {/* <SearchPanel onProductSelected={onProductSelected} filter={filter} data={fullData}/> */}
+                        <SearchPanel onProductSelected={onProductSelected} filter={year}/>
                     </div>
-
                     <ProductsFilters onYearSelected={onYearSelected}/>
                 </div> 
                 <div className="alerts">

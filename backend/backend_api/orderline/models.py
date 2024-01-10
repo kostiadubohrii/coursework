@@ -10,6 +10,7 @@ class OrderLine(models.Model):
     orderLineId = models.AutoField(primary_key=True)
     orderId = models.ForeignKey(Order, blank=True, null=True, default=None, on_delete=models.CASCADE)
     totalPrice = models.FloatField(blank=False, null=False, default=None)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return "OrderLine ID: %s" % (self.orderId)

@@ -14,7 +14,13 @@ class OrderLineSerializer(serializers.ModelSerializer):
     products = OrderLineProductSerializer(many=True, source="orderlineproduct_set")
     class Meta:
         model = OrderLine
-        fields = ['orderLineId', 'orderId', 'products', 'totalPrice']
+        fields = [
+            'orderLineId', 
+            'orderId', 
+            'products', 
+            'totalPrice',
+            'created_at'
+            ]
     
     def create(self, validated_data):
         products = validated_data.pop("orderlineproduct_set", [])

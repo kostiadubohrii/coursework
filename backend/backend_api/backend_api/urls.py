@@ -5,7 +5,7 @@ from django.urls import re_path as url
 from users.views import users_list, user_detail
 from products.views import products_list, product_detail, product_review_list, product_reviews_detail
 from orders.views import orders_list, order_detail, order_and_orderline_spread
-from orderline.views import orderLines_list, orderLine_detail
+from orderline.views import orderLines_list, orderLine_detail, product_statistics
 from backend_api import views
 
 # Come import to enable usavility of the images in API.
@@ -35,7 +35,7 @@ urlpatterns = [
 
     url(r'statistics/', views.statistics, name="statistics"), 
 
-    path('statistics_data/', views.statistics_data, name='statistics_data'),
+    path('statdata/', product_statistics),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

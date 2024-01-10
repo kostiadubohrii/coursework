@@ -10,7 +10,5 @@
 - Information about single user that has addresses, passwork, name, phonenumber, email, postcode.
 - Validation must be providedto all of these attributes.
 
-### Display statistics
-1. Products statistics
-2. Orders statistics
-3. Users statistics 
+### Changelog 
+- Add more descriptin about the processorder endpoint.

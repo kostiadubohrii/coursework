@@ -1,16 +1,16 @@
 import 'chart.js';
 import './chartsSection.scss';
 
-import BarChart from '../chartsComponents/BarChart';
-import ProductChart from '../chartsComponents/ProductChart'
+import ChartProductOrder from '../chartProductOrder/ChartProductOrder';
+import ChartProductRevenue from '../chartProductRevenue/ChartProductRevenue';
 
 const ChartsSection = () => {
     return (
         <div className='custom-container'>
             <h1 className="title">Statistics</h1>
             <div className="menu">
-                <BarChart/>
-                <ProductChart/>
+                <ChartProductRevenue />
+                <ChartProductOrder />
             </div>
         </div>
     )

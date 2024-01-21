@@ -1,61 +1,72 @@
-import { useState, useEffect, useCallback, useRef } from 'react'; 
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 import Form from 'react-bootstrap/Form';
 import './searchPanel.scss';
 
-import { fullData } from '../../services/data';
+import useStatisticsService from '../../services/productsService';
 
 const SearchPanel = (props) => {
 	const [name, setName] = useState('');
-	const [data, setData] = useState(() => filterData(fullData, props.filter));
+	const [data, setData] = useState([]);
 	const [results, setResults] = useState([]);
-	const [filter, setFitler] = useState(props.filter)
+
+	const { getAllProducts } = useStatisticsService();
 
 	const dropdownRef = useRef(null);
 
 	const handleChange = useCallback((e) => {
-	  setName(e.target.value);
+		setName(e.target.value);
 	}, []);
 
 	useEffect(() => {
-		setFitler(props.filter)
-
+		getAllProducts()
+			.then(data => setData(() => filterData(data, props.filter)))
 	}, [props.filter])
 
 	useEffect(() => {
-		setData(filterData(fullData, props.filter))
-	}, [filter])
- 
-	useEffect(() => {
-	  setResults(searchProduct(data, name));
-	}, [name,data]);
+		setResults(searchProduct(data, name));
+	}, [name, data]);
 
-	function filterData(data, filter){
-		let filteredData = {};
-		data.forEach(item => item.year === filter ? filteredData = item : null);
-		return filteredData.data;
+	function filterData(data, filter) {
+		const filteredData = data.filter(item => item.hasOwnProperty(filter))
+		const sm = filteredData.map(item => {
+			if (item.name.length > 20) {
+				return {
+					...item,
+					name: `${item.name.slice(0, 17)}...`
+				}
+			}
+			return item
+		})
+		return sm;
 	}
- 
+
+	//Searching -> 
+
 	function searchProduct(items, name) {
-	  name = name.toLowerCase().replace(/\s/g, '');
-	  if (name.length === 0) {
-		 return items;
-	  }
- 
-	  return items.filter((item) => {
-		 return item.name.toLowerCase().replace(/\s/g, '').indexOf(name) > -1;
-	  });
-	}
+		name = name.toLowerCase().replace(/\s/g, '');
+		if (name.length === 0) {
+			return items;
+		}
 
-	function toggleDisplay(toRemove){
+		return items.filter((item) => {
+			return item.name.toLowerCase().replace(/\s/g, '').indexOf(name) > -1;
+		});
+	}
+	// ------------------
+	// Dropdown menu toggling-> 
+
+	function toggleDisplay(toRemove) {
 		if (toRemove) {
 			dropdownRef.current.classList.remove('display-block');
 			dropdownRef.current.classList.add('display-none');
-		}else {
+		} else {
 			dropdownRef.current.classList.remove('display-none');
 			dropdownRef.current.classList.add('display-block');
 		}
 	}
+	// -----------------
+	// Remoeve menu if click is outsite of it
 
 	const handleClickOutside = (event) => {
 		if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -63,11 +74,13 @@ const SearchPanel = (props) => {
 		}
 	};
 
+	//----------------
+
 	useEffect(() => {
 		document.addEventListener('mousedown', handleClickOutside);
 
 		return () => {
-		  document.removeEventListener('mousedown', handleClickOutside);
+			document.removeEventListener('mousedown', handleClickOutside);
 		};
 
 	}, []);
@@ -76,38 +89,34 @@ const SearchPanel = (props) => {
 		toggleDisplay(false)
 	}
 
-	const handleItemClick = (product) => {
-		toggleDisplay(true)
-		clearInput(product)
-	}
-
 	const inputRef = useRef();
 
-	const clearInput = (product) => {
+	const handleItemClick = (product) => {
+		toggleDisplay(true)
 		props.onProductSelected(product)
 		setName('');
 		inputRef.current.value = '';
 	}
 
 	return (
-	  	<div className="search">
-		 	<Form.Control 
-		 		type="name" 
-				id="name" 
-				onChange={(e) => handleChange(e)} 
+		<div className="search">
+			<Form.Control
+				type="name"
+				id="name"
+				onChange={(e) => handleChange(e)}
 				onClick={handleClick}
 				ref={inputRef}
-				/>
-			 <div className="dropdown display-none" ref={dropdownRef}>
+			/>
+			<div className="dropdown display-none" ref={dropdownRef}>
 				<ul>
 					{
-						results.map((item, i) => {
-						return <li key={i} onClick={() => handleItemClick(item)}>{item.name}</li>
+						results.map(item => {
+							return <li key={item.id} onClick={() => handleItemClick(item)}>{item.name}</li>
 						})
 					}
 				</ul>
-		 	</div>
-		 </div>
+			</div>
+		</div>
 	);
 };
 

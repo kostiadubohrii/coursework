@@ -12,35 +12,51 @@ def products_list(request, format=None):
     if request.method == 'GET':
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
     if request.method == 'POST':
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_201_CREATED)
+
+        return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
 def product_detail(request, id, format=None):
-
     try: 
         product = Product.objects.get(pk=id)
     except:
-        return Response({"detail": f"Product with id: {id} does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        return Response({
+                "status": "failure",
+                "message": f"Product with id: {id} does not exist",
+            }, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = ProductSerializer(product)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    # elif request.method == 'PUT':
-    #     serializer = ProductSerializer(product, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    # elif request.method == 'DELETE':
-    #     product.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
+
+    return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST', 'GET'])
@@ -51,24 +67,45 @@ def product_review_list(request, format=None):
         user_id = data.get('user')
         review = data.get('review')
         if Reviews.objects.filter(user=user_id, product=product_id).exists(): 
-            return Response({"detail": f"User with user id: {user_id} has alredy left review. Alter review that has been left by user, or delete it and make request again"},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "status": "failure",
+                "message": f"User with user id: {user_id} has alredy left review.",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
         else:
             if float(review) <= 5 and float(review) >= 0:
                 serializer = ReviewSerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()
                     updateMeanReview(product_id)
-                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    return Response({
+                        "status": "success",
+                        "data": serializer.data
+                    }, status=status.HTTP_201_CREATED)
             else:
-                return Response({"detail":  "Check review field. Review must be in range 0 to 5"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response({
+                        "status": "failure",
+                        "message": "Review field must be in range 0 to 5",
+                        "data": serializer.errors
+                    }, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
         reviews = Reviews.objects.all()
         serializer = ReviewSerializer(reviews, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
+    
+    return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET','PUT', 'DELETE'])
 def product_reviews_detail(request, id, format=None):
@@ -76,21 +113,38 @@ def product_reviews_detail(request, id, format=None):
     try: 
         review = Reviews.objects.get(pk=id)
     except:
-        return Response({"detail": f"Review with id: {id} does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        return Response({
+                "status": "failure",
+                "message": f"Review with id: {id} does not exist",
+            },status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = ReviewSerializer(review)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
         serializer = ReviewSerializer(review, data=request.data)
         if serializer.is_valid():
             serializer.save()
             updateMeanReview(request.data.get('product'))
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_201_CREATED)
+        return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         review.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+    
+    return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 

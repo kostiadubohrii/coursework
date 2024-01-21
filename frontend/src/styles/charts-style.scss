@@ -18,14 +18,17 @@
 
         }
         .products-menu {
-            display: flex;
-            padding: 0 5px 0px 5px ;
-            .button-wrapper{
-                margin-right: 8px;
-                cursor: pointer;
-            }
-            .button-wrapper:last-child{
-                margin-right: 0px;
+            padding: 0 5px 0px 5px;
+            .products_list {
+                display: flex;
+                .alert-item{
+                    margin-right: 8px;
+                    
+                    cursor: pointer;
+                }
+                .alert-item:last-child{
+                    margin-right: 0px;
+                }
             }
         }
     }

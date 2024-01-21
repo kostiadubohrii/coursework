@@ -12,6 +12,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '10.4.36.91']
 
 INSTALLED_APPS = [
     'rest_framework',
+    'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -19,10 +20,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'users',
     'products',
     'orders',
-    # 'options',
     'orderline'
 ]
 
@@ -34,6 +35,8 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -44,6 +47,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backend_api.urls'
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATES = [
     {

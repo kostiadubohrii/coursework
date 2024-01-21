@@ -10,7 +10,6 @@ class OrderLine(models.Model):
     orderLineId = models.AutoField(primary_key=True)
     orderId = models.ForeignKey(Order, blank=True, null=True, default=None, on_delete=models.CASCADE)
     totalPrice = models.FloatField(blank=False, null=False, default=None)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return "OrderLine ID: %s" % (self.orderId)
@@ -23,6 +22,7 @@ class OrderLineProduct(models.Model):
     product = models.ForeignKey(Product, blank=False, null=True, default=None, on_delete=models.CASCADE)
     orderline = models.ForeignKey(OrderLine, blank=True, null=True, default=None, on_delete=models.CASCADE)
     quantity = models.IntegerField(blank=False, null=True, default=1)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return "OrderLine product: %s " % (self.id)

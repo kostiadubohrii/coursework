@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react"
 import { ButtonGroup, ToggleButton } from "react-bootstrap";
 
-import { getYears } from "../../services/productsService";
+import useStatisticsService from "../../services/productsService";
 
 const ProductsFilters = (props) => {
     const [years, setYears] = useState([]);
     const [curYear, setCurYear] = useState('2024');
 
+    const { getAllYears } = useStatisticsService();
+
     useEffect(() => {
-        setYears(getYears())
+        getAllYears()
+            .then((data) => setYears(data))
+            .catch(err => console.log(err))
     }, [])
 
     const handleClick = (year) => {
@@ -23,19 +27,19 @@ const ProductsFilters = (props) => {
 
         return arr.map((year, i) => {
             if (year === curYear) {
-                return <ToggleButton 
-                    variant='success' 
-                    key={i} 
+                return <ToggleButton
+                    variant='success'
+                    key={i}
                     onClick={() => handleClick(year)}
-                    >Year {year}</ToggleButton>
-            }else {
-                return <ToggleButton 
+                >Year {year}</ToggleButton>
+            } else {
+                return <ToggleButton
                     variant='outline-success'
-                    key={i} 
+                    key={i}
                     onClick={() => handleClick(year)}
-                    >Year {year}</ToggleButton>
+                >Year {year}</ToggleButton>
             }
-           
+
         })
     }
 

@@ -1,21 +1,26 @@
-import { fullData } from "./data"
+import { useHttp } from "../hooks/http.hook"
 
-export const getProducts = () => {
-    return fullData.flatMap(item => item.data)
+const useStatisticsService = () => {
+    const { loading, request, error } = useHttp();
+
+    const _apiBase = 'http://127.0.0.1:8000/api/';
+
+    const getAllProducts = async () => {
+        const res = await request(`${_apiBase}v1/statdata/`);
+        return res.data;
+    }
+
+    const getAllYears = async () => {
+        const res = await request(`${_apiBase}v1/years/`);
+        return res.data;
+    }
+
+    return {
+        loading,
+        error,
+        getAllProducts,
+        getAllYears
+    }
 }
 
-export const getProductByYear = (year) => {
-    let res;
-    fullData.forEach(item => {
-        if (item.year === year){
-           res = item.data
-        }
-    });
-
-    return res;
-}
-
-export const getYears = () => {
-    const years = fullData.map(item => item.year);
-    return years;
-}
+export default useStatisticsService;

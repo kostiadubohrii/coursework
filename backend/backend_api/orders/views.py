@@ -16,17 +16,28 @@ def orders_list(request, format=None):
     if request.method == 'GET':
         orders = Order.objects.all()
         serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data)
+        return Response({
+            "status": "success",
+            "data": serializer.data
+        }, status=status.HTTP_200_OK)
     if request.method == 'POST':
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_201_CREATED)
         else: 
-            print('error')
-            return Response(serializer, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST'])
 def order_detail(request, id, format=None):
@@ -34,22 +45,32 @@ def order_detail(request, id, format=None):
     try: 
         order = Order.objects.get(pk=id)
     except:
-        return Response({"detail": f"Order with id: {id} does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        return Response({
+            "status": "failure",
+            "message":  f"Order with id: {id} does not exist"
+        }, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = OrderSerializer(order)
-        return Response(serializer.data)
+        return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
         serializer = OrderSerializer(order, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            print('valid in order')
-            return Response(serializer.data)
-        print('error in order')
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
+        return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         order.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
 def order_and_orderline_spread(request, format=None):
@@ -64,7 +85,10 @@ def order_and_orderline_spread(request, format=None):
         try: 
             user = User.objects.get(pk=user_id)
         except:
-            return Response({"detail": f"User with id - {user_id} does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "status": "failure",
+                "message": f"User with id - {user_id} does not exist"
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         order_serializer = OrderSerializer(data = {
             "userId": order_data.get('userId'),
@@ -94,10 +118,16 @@ def order_and_orderline_spread(request, format=None):
             
         if format_check(order_on, '%Y-%m-%d'):
             if datetime.strptime(order_on, "%Y-%m-%d") < datetime.now():
-                error_message["orderOn"] = "This time date is in past"
+                return Response({
+                    "status": "failure",
+                    "message": "Past date time"
+                },  status=status.HTTP_400_BAD_REQUEST)
         
         if internal_product_price != float(order_line_data.get('totalPrice')):
-            error_message["totalPrice"] = f"This total price does not equal to the total price on the API which is {internal_product_price}"
+            return Response({
+                    "status": "failure",
+                    "message": f"Incorrect total price. Must be {internal_product_price}"
+                },  status=status.HTTP_400_BAD_REQUEST)
 
         
         if order_serializer.is_valid():
@@ -116,12 +146,21 @@ def order_and_orderline_spread(request, format=None):
 
                 else:
                     order_instance.delete()
-                    return Response(orderLine_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({
+                        "status": "failure",
+                        "message": orderLine_serializer.errors
+                    }, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response(error_message,  status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(order_serializer.errors,  status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "status": "failure",
+                "message": order_serializer.errors
+            },  status=status.HTTP_400_BAD_REQUEST)
         
     
-    return Response({"message": "Order and OrderLine created successfully."}, status=status.HTTP_201_CREATED)
+    return Response({
+        "status": "success",
+        "message": "Order has been created"
+    }, status=status.HTTP_201_CREATED)
         

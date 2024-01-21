@@ -47,90 +47,74 @@ def orderLine_detail(request, id, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 def product_statistics(request):
-    products_ordered = list(OrderLineProduct.objects.all())
-    order_lines = []
-    for i in products_ordered: 
-        orderline = {
-            "orderline": i.orderline.orderLineId,
-            "productId": i.product.pk,
-            "quantity": i.quantity
-        }
-        order_lines.append(orderline)
+    if request.method == "GET":
+        orderline_products = OrderLineProduct.objects.all()
+        products = Product.objects.all()
 
-    order_data = list(OrderLine.objects.all())
-    order_datas = []
+        temp = {}
 
-    for j in order_data: 
-        order_data = {
-            "created_at": j.created_at.strftime("%d/%m/%Y"),
-            "id": j.orderLineId
-        }
-        order_datas.append(order_data)
+        def setRevenueSoldDict(month, quantity, price):
+            sold = [0,0,0,0,0,0,0,0,0,0,0,0]
+            sold[month] = quantity
 
-    for item in order_datas:
-        orderline_id = item.get('id')
-        created_at = item.get('created_at')
+            revenue = [0,0,0,0,0,0,0,0,0,0,0,0]
+            revenue[month] = quantity * price
 
-        for entry in order_lines:
-            entry_id = entry.get('orderline')
+            return {
+                "revenue": revenue,
+                "sold": sold
+            }
 
-            if entry_id == orderline_id:
-                entry['created_at'] = created_at
+        for order in orderline_products: 
+            orderItemId = order.product.pk 
+            order_date_year = order.created_at.strftime("%d/%m/%Y")[6:10]
+            order_date_month = int(order.created_at.strftime("%d/%m/%Y")[3:5]) - 1
+            product_price = Product.objects.get(pk=orderItemId).price
 
+            if orderItemId in temp:
+                if order_date_year in temp[orderItemId]:
+                    temp[orderItemId][order_date_year]["sold"][order_date_month] += order.quantity
+                    temp[orderItemId][order_date_year]["revenue"][order_date_month] += order.quantity * product_price
 
-    def get_short_month(crated_at):
-        date = datetime.strptime(crated_at, "%d/%m/%Y")
-        month = calendar.month_name[date.month].lower()[0:3]
-        return month
+                else:
+                    temp[orderItemId][order_date_year] = setRevenueSoldDict(order_date_month, order.quantity, product_price)
 
-    def get_products_info_year(order_lines):
-        prices = {}
-        products_dict = Product.objects.all()
-        
-        for i in products_dict:
-            produt_id = i.pk
-            price = i.price
-            prices[produt_id] = [price]
-
-        results = {}
-        for item in order_lines: 
-            product_id = item.get('productId')
-            product_name = Product.objects.get(pk=product_id).name
-            crated_at = item.get('created_at')
-            
-            if not product_id in results:
-                results[product_id] = {
-                    "id": product_id,
-                    "name": product_name,
-                    "revenue": {"jan": 0,"feb": 0,"mar": 0,"apr": 0,"may": 0,"jun": 0,"jul": 0,"aug": 0,"sep": 0,"oct": 0,"nov": 0,"dec": 0},
-                    "sells": {"jan": 0,"feb": 0,"mar": 0,"apr": 0,"may": 0,"jun": 0,"jul": 0,"aug": 0, "sep": 0,"oct": 0,"nov": 0,"dec": 0}
+            else:
+                temp[orderItemId] = {
+                    "id": orderItemId,
+                    "name": order.product.name,
+                    order_date_year: setRevenueSoldDict(order_date_month, order.quantity, product_price)
                 }
-                
-                results[product_id]["revenue"][get_short_month(crated_at)] = item['quantity'] * prices[product_id][0]
-                results[product_id]["sells"][get_short_month(crated_at)] = item['quantity']
-                
-            else: 
-                results[product_id]["revenue"][get_short_month(crated_at)] += item['quantity'] * prices[product_id][0]
-                results[product_id]["sells"][get_short_month(crated_at)] += item['quantity']
-
-        return list(results.values())
-
-    newData = {}
-
-    for item in order_lines:
-        year = datetime.strptime(item['created_at'], '%d/%m/%Y').year
-        if year in newData: 
-            newData[year].append(item)
-        else:
-            newData[year] = [item]
-    
-    for key in newData:
-        year = newData[key]
-        newData[key] = get_products_info_year(year)
-
-    
-    print(newData)
-    
-    return JsonResponse(newData)
         
-    
+        data = []
+        for item in temp:
+            data.append(temp[item])
+
+        response = {
+            "status": "success",
+            "data": data
+        }
+        return JsonResponse(response)
+
+def years(request, format=None):
+    if request.method == 'GET':
+        years = []
+
+        for product in OrderLineProduct.objects.all():
+            if product.created_at.strftime("%d/%m/%Y")[6:10] not in years: 
+                years.append(product.created_at.strftime("%d/%m/%Y")[6:10])
+
+        response = {
+            "status": "success",
+            "data": years
+        }
+
+        return JsonResponse(response)
+    else:
+        return JsonResponse({
+            "status": "fail"
+        })
+
+    JsonResponse({
+        "status": "fail"
+    })

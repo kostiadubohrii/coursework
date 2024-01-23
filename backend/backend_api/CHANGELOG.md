@@ -1,7 +1,9 @@
 ## January 2023, 2024 Update
 
 Changed route to the endpoint.
-Earlier to add an order you would have requestd on `api/v1/processorder/`. Now it was changed to `api/v1/orders/`
+
+- Before, to add an order you would have requestd on `api/v1/processorder/`. Now it was changed to `api/v1/orders/`
+- Also, the `api/v1/statdata/` is now `api/v1/statistics/`
 
 ## January 21, 2024 Update
 

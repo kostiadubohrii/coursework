@@ -5,7 +5,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 
 import SearchPanel from '../searchPanel/SearchPanel';
-import ProductsFilters from '../productsFilters/ProductsFilter';
+import ChartFilters from '../chartFilters/ChartFilters';
 
 import { monthsConfig } from '../../services/yearConfit';
 
@@ -50,7 +50,7 @@ const ChartProductOrder = () => {
                     <div class="search-panel">
                         <SearchPanel onProductSelected={onProductSelected} filter={year} />
                     </div>
-                    <ProductsFilters onYearSelected={onYearSelected} />
+                    <ChartFilters onYearSelected={onYearSelected} />
                 </div>
             </div>
             <div class="chart">

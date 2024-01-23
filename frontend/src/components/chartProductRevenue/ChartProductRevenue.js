@@ -6,7 +6,7 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 
 import SearchPanel from '../searchPanel/SearchPanel';
-import ProductsFilters from '../productsFilters/ProductsFilter';
+import ChartFilters from '../chartFilters/ChartFilters';
 import ChartProductList from '../chartProductList/ChartProductList';
 import { LimAlert, ExistAlert } from '../alertMessages/alertMessages';
 
@@ -88,7 +88,7 @@ const ChartProductRevenue = () => {
                     <div className="search-panel">
                         <SearchPanel onProductSelected={onProductSelected} filter={year} />
                     </div>
-                    <ProductsFilters onYearSelected={onYearSelected} />
+                    <ChartFilters onYearSelected={onYearSelected} />
                 </div>
                 <div className="alerts">
                     {limAlert ? <LimAlert /> : null}

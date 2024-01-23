@@ -8,7 +8,7 @@ const ChartsSection = () => {
     return (
         <div className='custom-container'>
             <h1 className="title">Statistics</h1>
-            <div className="menu">
+            <div className="section_charts">
                 <ChartProductRevenue />
                 <ChartProductOrder />
             </div>

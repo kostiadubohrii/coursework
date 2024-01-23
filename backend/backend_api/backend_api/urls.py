@@ -28,7 +28,7 @@ urlpatterns = [
     # path('api/v1/orderline/', orderLines_list),
     # path('api/v1/orderline/<int:id>', orderLine_detail),
 
-    path('api/v1/processorder/', order_and_orderline_spread),
+    path('api/v1/orders/', order_and_orderline_spread),
 
     path('api/v1/products/reviews/', product_review_list),
     path('api/v1/products/reviews/<int:id>', product_reviews_detail), 

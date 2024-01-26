@@ -3,6 +3,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Form from 'react-bootstrap/Form';
 import './searchPanel.scss';
 
+import DropDown from '../dropDown/dropDown';
+
 import useStatisticsService from '../../services/productsService';
 
 const SearchPanel = (props) => {
@@ -20,8 +22,8 @@ const SearchPanel = (props) => {
 
 	useEffect(() => {
 		getAllProducts()
-			.then(data => setData(() => filterData(data, props.filter)))
-	}, [props.filter])
+			.then(data => setData(() => filterData(data, props.year)))
+	}, [props.year])
 
 	useEffect(() => {
 		setResults(searchProduct(data, name));
@@ -107,15 +109,7 @@ const SearchPanel = (props) => {
 				onClick={handleClick}
 				ref={inputRef}
 			/>
-			<div className="dropdown display-none" ref={dropdownRef}>
-				<ul>
-					{
-						results.map(item => {
-							return <li key={item.id} onClick={() => handleItemClick(item)}>{item.name}</li>
-						})
-					}
-				</ul>
-			</div>
+			<DropDown handleItemClick={handleItemClick} results={results} dropdownRef={dropdownRef} />
 		</div>
 	);
 };

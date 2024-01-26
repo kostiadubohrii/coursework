@@ -10,10 +10,7 @@ import ChartFilters from '../chartFilters/ChartFilters';
 import { monthsConfig } from '../../services/yearConfit';
 
 const ChartProductOrder = () => {
-    const [userData, setUserData] = useState({
-        labels: monthsConfig,
-        datasets: [{ label: 'This colour represents a product', data: [] }]
-    })
+    const [userData, setUserData] = useState({ labels: monthsConfig, datasets: [{ label: 'Choose product', data: [] }] })
     const [year, setYear] = useState('2024')
 
     const onProductSelected = (data) => {
@@ -33,12 +30,7 @@ const ChartProductOrder = () => {
         setYear(year);
         setUserData({
             labels: monthsConfig,
-            datasets: [
-                {
-                    label: 'This colour represents a product',
-                    data: [],
-                }
-            ]
+            datasets: [{ label: 'Choose product', data: [] }]
         });
     }
 
@@ -48,7 +40,7 @@ const ChartProductOrder = () => {
                 <div class="title">Product orders per year</div>
                 <div className="menu">
                     <div class="search-panel">
-                        <SearchPanel onProductSelected={onProductSelected} filter={year} />
+                        <SearchPanel onProductSelected={onProductSelected} year={year} />
                     </div>
                     <ChartFilters onYearSelected={onYearSelected} />
                 </div>

@@ -1,12 +1,11 @@
-import Skeleton from '../components/skeleton/Skeleton'
-import ErrorMessage from '../components/errorMessage/ErrorMessage';
+import { Skeleton } from '../components/skeleton/Skeleton'
 
 const setContent = (process, Component, data) => {
     switch (process) {
         case 'loading':
             return <Skeleton />;
         case 'confirmed':
-            return <Component data={data} />;
+            return <Component {...data} />;
         case 'error':
             return <Skeleton />;
         default:

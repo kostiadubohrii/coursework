@@ -2,13 +2,15 @@ import { useEffect, useState } from "react"
 import { ButtonGroup, ToggleButton } from "react-bootstrap";
 
 import useStatisticsService from "../../services/productsService";
-import setContent from "../../utils/setContent";
+
+import './chartFilters.scss';
 
 const ChartFilters = (props) => {
+    console.log(props)
     const [years, setYears] = useState([]);
     const [curYear, setCurYear] = useState('2024');
 
-    const { getAllYears, process } = useStatisticsService();
+    const { getAllYears } = useStatisticsService();
 
     useEffect(() => {
         getAllYears()
@@ -47,17 +49,13 @@ const ChartFilters = (props) => {
 
     return (
         <div className="chart-filters">
-            {setContent(process, Filters, elements)}
+            {/* {setContent(process, Filters, elements)} */}
+            <ButtonGroup>
+                {elements}
+            </ButtonGroup>
         </div>
     )
 }
 
-const Filters = ({ data }) => {
-    return (
-        <ButtonGroup>
-            {data}
-        </ButtonGroup>
-    )
-}
 
 export default ChartFilters

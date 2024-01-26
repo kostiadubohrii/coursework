@@ -1,13 +1,20 @@
 import './skeleton.scss';
 
-const Skeleton = () => {
+export const Skeleton = () => {
     return (
         <>
-            <div className="skeleton">
-                <div className="pulse skeleton_block"></div>
+            <div className="skeleton pulse">
+                {/* <div className="pulse skeleton_block"></div> */}
             </div>
         </>
     )
 }
 
-export default Skeleton;
+export const ChartSkeleton = () => {
+    return (
+        <>
+            <div className="skeleton_chart">
+            </div>
+        </>
+    )
+}

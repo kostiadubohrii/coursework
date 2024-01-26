@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import '../../styles/charts-style.scss';
+import './chartProductRevenue.scss';
 
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
@@ -11,15 +12,16 @@ import ChartProductList from '../chartProductList/ChartProductList';
 import { LimAlert, ExistAlert } from '../alertMessages/alertMessages';
 
 import { monthsConfig } from '../../services/yearConfit';
+import useStatisticsService from '../../services/productsService';
+import setContent from '../../utils/setContent';
 
 const ChartProductRevenue = () => {
-    const [data, setData] = useState({
-        labels: monthsConfig,
-        datasets: [{ label: 'Select a product' }]
-    });
+    const [data, setData] = useState({ labels: monthsConfig, datasets: [{ label: 'Choose product' }] });
     const [limAlert, setLimAlert] = useState(false);
     const [existAlert, setExistAlert] = useState(false);
     const [year, setYear] = useState('2024');
+
+    const { process } = useStatisticsService();
 
     const onProductSelected = (productData) => {
         const newData = {
@@ -61,7 +63,7 @@ const ChartProductRevenue = () => {
         let length = data.datasets.filter(item => item.id !== id).length;
         setData(prevState => ({
             ...prevState,
-            datasets: length ? prevState.datasets.filter(item => item.id !== id) : [{ 'label': 'Select a product' }]
+            datasets: length ? prevState.datasets.filter(item => item.id !== id) : [{ 'label': 'Choose product' }]
         }))
     }
 
@@ -74,10 +76,7 @@ const ChartProductRevenue = () => {
             }
         });
 
-        setData({
-            labels: monthsConfig,
-            datasets: [{ label: 'Select a product' }]
-        })
+        setData({ labels: monthsConfig, datasets: [{ label: 'Choose product' }] })
     };
 
     return (
@@ -86,8 +85,10 @@ const ChartProductRevenue = () => {
                 <div className="title">Product revenue per year</div>
                 <div className="menu">
                     <div className="search-panel">
-                        <SearchPanel onProductSelected={onProductSelected} filter={year} />
+                        {/* {setContent(process, <SearchPanel />, { onProductSelected, year })} */}
+                        <SearchPanel onProductSelected={onProductSelected} year={year} />
                     </div>
+                    {/* {setContent(process, <ChartFilters />, { onYearSelected })} */}
                     <ChartFilters onYearSelected={onYearSelected} />
                 </div>
                 <div className="alerts">
@@ -99,9 +100,16 @@ const ChartProductRevenue = () => {
                 </div>
             </div>
             <div className="chart">
+                {/* {setContent(process, BarChart, data)} */}
                 <Bar data={data} />
             </div>
         </div>
+    )
+}
+
+const BarChart = ({ data }) => {
+    return (
+        <Bar data={data} />
     )
 }
 

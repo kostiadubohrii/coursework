@@ -36,29 +36,29 @@ class Product(models.Model):
       verbose_name = 'Product'
       verbose_name_plural = 'Products'
 
-class ProductImage(models.Model):
-   product = models.ForeignKey(Product, blank=True, null=True, default=None, on_delete=models.CASCADE)
-   image = models.ImageField(upload_to='products_images/')
-   is_active = models.BooleanField(default=True)
+# class ProductImage(models.Model):
+#    product = models.ForeignKey(Product, blank=True, null=True, default=None, on_delete=models.CASCADE)
+#    image = models.ImageField(upload_to='products_images/')
+#    is_active = models.BooleanField(default=True)
 
-   def __str__(self):
-      return "%s" % self.id
+#    def __str__(self):
+#       return "%s" % self.id
 
-   class Meta:
-      verbose_name = 'Image'
-      verbose_name_plural = 'Images'
+#    class Meta:
+#       verbose_name = 'Image'
+#       verbose_name_plural = 'Images'
 
-class ProductLogo(models.Model):
-   logo = models.ImageField(upload_to='products_logos/', blank=True, null=True)
-   product = models.ForeignKey(Product, blank=True, null=True, default=None, on_delete=models.CASCADE)
-   is_active = models.BooleanField(default=True)
+# class ProductLogo(models.Model):
+#    logo = models.ImageField(upload_to='products_logos/', blank=True, null=True)
+#    product = models.ForeignKey(Product, blank=True, null=True, default=None, on_delete=models.CASCADE)
+#    is_active = models.BooleanField(default=True)
 
-   def __str__(self):
-      return "%s" % self.id
+#    def __str__(self):
+#       return "%s" % self.id
 
-   class Meta:
-      verbose_name = 'Logo'
-      verbose_name_plural = 'Logos'
+#    class Meta:
+#       verbose_name = 'Logo'
+#       verbose_name_plural = 'Logos'
 
 
 class Reviews(models.Model):

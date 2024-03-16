@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
 
 import '../../styles/charts-style.scss';
 import './chartProductRevenue.scss';
@@ -12,8 +13,6 @@ import ChartProductList from '../chartProductList/ChartProductList';
 import { LimAlert, ExistAlert } from '../alertMessages/alertMessages';
 
 import { monthsConfig } from '../../services/yearConfit';
-import useStatisticsService from '../../services/productsService';
-import setContent from '../../utils/setContent';
 
 const ChartProductRevenue = () => {
     const [data, setData] = useState({ labels: monthsConfig, datasets: [{ label: 'Choose product' }] });
@@ -21,7 +20,6 @@ const ChartProductRevenue = () => {
     const [existAlert, setExistAlert] = useState(false);
     const [year, setYear] = useState('2024');
 
-    const { process } = useStatisticsService();
 
     const onProductSelected = (productData) => {
         const newData = {
@@ -113,4 +111,9 @@ const BarChart = ({ data }) => {
     )
 }
 
-export default ChartProductRevenue;
+const mapStateToPorps = (state) => {
+    return {
+        process: state.process
+    }
+}
+export default connect(mapStateToPorps)(ChartProductRevenue);

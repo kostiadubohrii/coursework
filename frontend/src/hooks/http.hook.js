@@ -1,29 +1,38 @@
 import { useState, useCallback } from 'react';
+import { createStore, bindActionCreators } from 'redux';
+import * as actions from '../actions/actions';
+import reducer from '../reducer/reducer';
+
 
 export const useHttp = () => {
-    const [process, setProcess] = useState('loading');
+    const [process, setProcess] = useState('loading')
+
+    const store = createStore(reducer);
+
+    const { dispatch } = store;
+
+    const { change } = bindActionCreators(actions, dispatch)
 
     const request = useCallback(async (url, method = 'GET', body = null, headers = { 'Content-Type': 'application/json' }) => {
-        setProcess('loading')
         try {
             const response = await fetch(url, { method, body, headers });
 
             if (!response.ok) {
-                setProcess('error')
+                change('error')
                 throw new Error(`Could not fetch ${url}, status ${response.status}, error ${response.error}`);
             }
             const data = await response.json();
-            setProcess('confirmed')
+            change('confirmed')
             return data
         } catch (error) {
-            setProcess('error')
+            change('error')
             throw error;
         }
     }, [])
 
     const clearError = useCallback(() => {
-        setProcess('loading')
+        change('loading')
     }, []);
 
-    return { request, clearError, process };
+    return { request, clearError, process, store };
 }

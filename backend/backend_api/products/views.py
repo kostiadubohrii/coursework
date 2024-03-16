@@ -107,7 +107,7 @@ def product_review_list(request, format=None):
                 "data": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET','PUT', 'DELETE'])
+@api_view(['GET','PATCH', 'DELETE'])
 def product_reviews_detail(request, id, format=None):
 
     try: 
@@ -124,15 +124,16 @@ def product_reviews_detail(request, id, format=None):
                 "status": "success",
                 "data": serializer.data
             }, status=status.HTTP_200_OK)
-    elif request.method == 'PUT':
+    elif request.method == 'PATCH':
         serializer = ReviewSerializer(review, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            updateMeanReview(request.data.get('product'))
+            product_id = Reviews.objects.get(pk=id).product.id
+            updateMeanReview(product_id)
             return Response({
                 "status": "success",
                 "data": serializer.data
-            }, status=status.HTTP_201_CREATED)
+            }, status=status.HTTP_200_OK)
         return Response({
                 "status": "failure",
                 "data": serializer.errors

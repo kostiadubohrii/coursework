@@ -14,8 +14,8 @@ class Category(models.Model):
       return "%s" % self.category
 
    class Meta:
-      verbose_name = 'Category name'
-      verbose_name_plural = 'Category names'
+      verbose_name = 'Category'
+      verbose_name_plural = 'Categories'
       
 class Product(models.Model):
    name = models.CharField(max_length=64, blank=True, null=True, default=None)

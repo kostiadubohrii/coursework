@@ -12,8 +12,6 @@ import ChartProductList from '../chartProductList/ChartProductList';
 import { LimAlert, ExistAlert } from '../alertMessages/alertMessages';
 
 import { monthsConfig } from '../../services/yearConfit';
-import useStatisticsService from '../../services/productsService';
-import setContent from '../../utils/setContent';
 
 const ChartProductRevenue = () => {
     const [data, setData] = useState({ labels: monthsConfig, datasets: [{ label: 'Choose product' }] });
@@ -21,7 +19,6 @@ const ChartProductRevenue = () => {
     const [existAlert, setExistAlert] = useState(false);
     const [year, setYear] = useState('2024');
 
-    const { process } = useStatisticsService();
 
     const onProductSelected = (productData) => {
         const newData = {
@@ -85,10 +82,8 @@ const ChartProductRevenue = () => {
                 <div className="title">Product revenue per year</div>
                 <div className="menu">
                     <div className="search-panel">
-                        {/* {setContent(process, <SearchPanel />, { onProductSelected, year })} */}
                         <SearchPanel onProductSelected={onProductSelected} year={year} />
                     </div>
-                    {/* {setContent(process, <ChartFilters />, { onYearSelected })} */}
                     <ChartFilters onYearSelected={onYearSelected} />
                 </div>
                 <div className="alerts">
@@ -100,16 +95,9 @@ const ChartProductRevenue = () => {
                 </div>
             </div>
             <div className="chart">
-                {/* {setContent(process, BarChart, data)} */}
                 <Bar data={data} />
             </div>
         </div>
-    )
-}
-
-const BarChart = ({ data }) => {
-    return (
-        <Bar data={data} />
     )
 }
 

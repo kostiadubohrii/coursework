@@ -6,7 +6,6 @@ import useStatisticsService from "../../services/productsService";
 import './chartFilters.scss';
 
 const ChartFilters = (props) => {
-    console.log(props)
     const [years, setYears] = useState([]);
     const [curYear, setCurYear] = useState('2024');
 

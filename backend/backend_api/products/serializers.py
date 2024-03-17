@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from .models import Product, ProductImage, ProductLogo, Category, Reviews, ReviewLine
+from .models import Product, Category, Reviews, ReviewLine
 
-class ProductImageSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(max_length=None, use_url=True)
+# class ProductImageSerializer(serializers.ModelSerializer):
+#     image = serializers.ImageField(max_length=None, use_url=True)
 
-    class Meta:
-        model = ProductImage
-        fields = ['image']
+#     class Meta:
+#         model = ProductImage
+#         fields = ['image']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category 
-        fields = ['id', 'category']
+        fields = ['id', 'category', 'isActive']
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -32,7 +32,7 @@ class ReviewLineSerializer(serializers.ModelSerializer):
             'meanReview'
         ]
 class ProductSerializer(serializers.ModelSerializer):
-    images = ProductImageSerializer(many=True, read_only=True, source='productimage_set')
+    # images = ProductImageSerializer(many=True, read_only=True, source='productimage_set')
     mainImage = serializers.ImageField(max_length=None, use_url=True, required=False, allow_null=True)
     category = CategorySerializer()
     meanReview = ReviewLineSerializer().get_value
@@ -48,9 +48,10 @@ class ProductSerializer(serializers.ModelSerializer):
                   'isActive', 
                   'category', 
                   'mainImage', 
-                  'images', 
+                #   'images', 
                   'meanReview',
                   'created_at',
+                  'leftInStock'
                   ]
     def to_representation(self, instance):
         representation = super().to_representation(instance)

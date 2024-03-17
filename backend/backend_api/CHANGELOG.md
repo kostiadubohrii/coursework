@@ -1,4 +1,8 @@
-## January 2023, 2024 Update
+## February 15, 2024 Update
+
+All PUT requests are changed to PATCH requests. So, you don't need to write all fields in body of request, only fields you want to change.
+
+## January 26, 2024 Update
 
 Changed route to the endpoint.
 

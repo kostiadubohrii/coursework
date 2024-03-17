@@ -8,8 +8,7 @@ from users.models import User
 
 class Category(models.Model):
    category = models.CharField(max_length=86, blank=True, null=True, default=None,)
-   is_active = models.BooleanField(default=True)
-   is_visible = models.BooleanField(default=False)
+   isActive = models.BooleanField(default=True)
 
    def __str__(self):
       return "%s" % self.category
@@ -29,6 +28,9 @@ class Product(models.Model):
    mainImage = models.ImageField(upload_to='Images/', default='Images/None/No0img.jpg')
    meanReview = models.FloatField(blank=False, null=False, default=0)
    created_at = models.DateTimeField(auto_now_add=True)
+   leftInStock = models.IntegerField(blank=True, null=True, default=5)
+   minimumAmount = models.IntegerField(blank=True, null=True, default=4)
+   topUpAmount = models.IntegerField(blank=True, null=True, default=2)
               
    def __str__(self):
       return "%s" % self.name

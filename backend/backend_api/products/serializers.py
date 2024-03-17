@@ -11,7 +11,7 @@ from .models import Product, Category, Reviews, ReviewLine
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category 
-        fields = ['id', 'category']
+        fields = ['id', 'category', 'isActive']
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -51,6 +51,7 @@ class ProductSerializer(serializers.ModelSerializer):
                 #   'images', 
                   'meanReview',
                   'created_at',
+                  'leftInStock'
                   ]
     def to_representation(self, instance):
         representation = super().to_representation(instance)

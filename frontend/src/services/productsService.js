@@ -1,7 +1,7 @@
 import { useHttp } from "../hooks/http.hook"
 
 const useStatisticsService = () => {
-    const { request, process, store } = useHttp();
+    const { request, process } = useHttp();
 
     const _apiBase = 'http://127.0.0.1:8000/api/';
 
@@ -18,8 +18,7 @@ const useStatisticsService = () => {
     return {
         getAllProducts,
         getAllYears,
-        process,
-        store
+        process
     }
 }
 

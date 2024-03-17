@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
 
 import '../../styles/charts-style.scss';
 import './chartProductRevenue.scss';
@@ -83,10 +82,8 @@ const ChartProductRevenue = () => {
                 <div className="title">Product revenue per year</div>
                 <div className="menu">
                     <div className="search-panel">
-                        {/* {setContent(process, <SearchPanel />, { onProductSelected, year })} */}
                         <SearchPanel onProductSelected={onProductSelected} year={year} />
                     </div>
-                    {/* {setContent(process, <ChartFilters />, { onYearSelected })} */}
                     <ChartFilters onYearSelected={onYearSelected} />
                 </div>
                 <div className="alerts">
@@ -98,22 +95,10 @@ const ChartProductRevenue = () => {
                 </div>
             </div>
             <div className="chart">
-                {/* {setContent(process, BarChart, data)} */}
                 <Bar data={data} />
             </div>
         </div>
     )
 }
 
-const BarChart = ({ data }) => {
-    return (
-        <Bar data={data} />
-    )
-}
-
-const mapStateToPorps = (state) => {
-    return {
-        process: state.process
-    }
-}
-export default connect(mapStateToPorps)(ChartProductRevenue);
+export default ChartProductRevenue;

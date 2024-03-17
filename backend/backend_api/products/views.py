@@ -1,5 +1,5 @@
-from .models import Product, Reviews, ReviewLine
-from .serializers import ProductSerializer, ReviewSerializer
+from .models import Product, Reviews, ReviewLine, Category
+from .serializers import ProductSerializer, ReviewSerializer, CategorySerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -16,14 +16,14 @@ def products_list(request, format=None):
                 "status": "success",
                 "data": serializer.data
             }, status=status.HTTP_200_OK)
-    if request.method == 'POST':
-        serializer = ProductSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                "status": "success",
-                "data": serializer.data
-            }, status=status.HTTP_201_CREATED)
+    # if request.method == 'POST':
+    #     serializer = ProductSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response({
+    #             "status": "success",
+    #             "data": serializer.data
+    #         }, status=status.HTTP_201_CREATED)
 
         return Response({
                 "status": "failure",
@@ -148,6 +148,48 @@ def product_reviews_detail(request, id, format=None):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+def categories_list(request, format=None):
+
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
+
+        return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def category_details(request, id, format=None):
+    try: 
+        category = Category.objects.get(pk=id)
+    except:
+        return Response({
+                "status": "failure",
+                "message": f"Category with id: {id} does not exist",
+            }, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CategorySerializer(category)
+        return Response({
+                "status": "success",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
+
+    return Response({
+                "status": "failure",
+                "data": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 def updateMeanReview(product_id):
     reviews_tuple = Reviews.objects.filter(product=product_id)

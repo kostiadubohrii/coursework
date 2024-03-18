@@ -18,12 +18,19 @@ const ChartProductRevenue = () => {
     const [existAlert, setExistAlert] = useState(false);
     const [year, setYear] = useState('2024');
 
+    const [availibleColours, setAvailibleColours] = useState([
+        { colour: '#36a2eb', availible: true },
+        { colour: '#ff6384', availible: true },
+        { colour: '#4bc0c0', availible: true },
+        { colour: '#ff9f40', availible: true },
+        { colour: '#9966ff', availible: true }]);
 
     const onProductSelected = (productData) => {
+
         const newData = {
             id: productData.id,
             label: productData.name,
-            data: productData[year].revenue
+            data: productData[year].revenue,
         }
 
         if (data.datasets[0].id === undefined) {
@@ -37,10 +44,24 @@ const ChartProductRevenue = () => {
 
         if (!productExists) {
             if (data.datasets.length < 5) {
+                let availible = null;
+                let i = 0;
+                while (i < availibleColours.length && availible === null) {
+                    if (availibleColours[i].availible) {
+                        availible = availibleColours[i].colour;
+                    }
+                    i++;
+                }
+                newData.backgroundColor = availible;
+
                 setData(prevState => ({
                     ...prevState,
                     datasets: [...prevState.datasets, newData]
-                }))
+                }));
+
+                const updatedColours = [...availibleColours];
+                updatedColours[i - 1].availible = false;
+                setAvailibleColours(updatedColours)
             } else {
                 setLimAlert(true)
                 setTimeout(() => {
@@ -55,12 +76,21 @@ const ChartProductRevenue = () => {
         }
     }
 
-    const onDeleteProduct = (id) => {
+    const onDeleteProduct = (id, colour) => {
         let length = data.datasets.filter(item => item.id !== id).length;
         setData(prevState => ({
             ...prevState,
             datasets: length ? prevState.datasets.filter(item => item.id !== id) : [{ 'label': 'Choose product' }]
         }))
+        availibleColours.forEach((item, i) => {
+            if (item.colour === colour) {
+                const updatedColours = [...availibleColours];
+                updatedColours[i].availible = true;
+                setAvailibleColours(updatedColours)
+            }
+        })
+
+
     }
 
     const onYearSelected = (year) => {

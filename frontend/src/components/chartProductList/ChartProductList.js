@@ -10,7 +10,7 @@ const ChartProductList = ({ data, onDeleteProduct }) => {
             <Alert
                 variant="info"
                 key={item.id}
-                onClick={() => onDeleteProduct(item.id)}
+                onClick={() => onDeleteProduct(item.id, item.backgroundColor)}
                 className='alert-item'
             >{item.label} &#10005;
             </Alert>

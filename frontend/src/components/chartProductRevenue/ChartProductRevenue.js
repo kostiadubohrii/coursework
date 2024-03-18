@@ -11,6 +11,7 @@ import ChartProductList from '../chartProductList/ChartProductList';
 import { LimAlert, ExistAlert } from '../alertMessages/alertMessages';
 
 import { monthsConfig } from '../../services/yearConfit';
+import { coloursConfig } from '../../services/coloursConfig';
 
 const ChartProductRevenue = () => {
     const [data, setData] = useState({ labels: monthsConfig, datasets: [{ label: 'Choose product' }] });
@@ -18,12 +19,7 @@ const ChartProductRevenue = () => {
     const [existAlert, setExistAlert] = useState(false);
     const [year, setYear] = useState('2024');
 
-    const [availibleColours, setAvailibleColours] = useState([
-        { colour: '#36a2eb', availible: true },
-        { colour: '#ff6384', availible: true },
-        { colour: '#4bc0c0', availible: true },
-        { colour: '#ff9f40', availible: true },
-        { colour: '#9966ff', availible: true }]);
+    const [availibleColours, setAvailibleColours] = useState(coloursConfig);
 
     const onProductSelected = (productData) => {
 
@@ -94,6 +90,12 @@ const ChartProductRevenue = () => {
     }
 
     const onYearSelected = (year) => {
+        setAvailibleColours(prev => ([
+            ...prev.map(item => ({
+                colour: item.colour,
+                availible: true
+            }))
+        ]))
         setYear(prevYear => {
             if (prevYear === year) {
                 return prevYear
@@ -103,6 +105,7 @@ const ChartProductRevenue = () => {
         });
 
         setData({ labels: monthsConfig, datasets: [{ label: 'Choose product' }] })
+
     };
 
     return (

@@ -23,7 +23,7 @@ const ChartProductRevenue = () => {
 
     const onProductSelected = (productData) => {
 
-        const newData = {
+        const newData = { //set new object of product 
             id: productData.id,
             label: productData.name,
             data: productData[year].revenue,
@@ -40,39 +40,41 @@ const ChartProductRevenue = () => {
 
         if (!productExists) {
             if (data.datasets.length < 5) {
-                let availible = null;
-                let i = 0;
-                while (i < availibleColours.length && availible === null) {
-                    if (availibleColours[i].availible) {
-                        availible = availibleColours[i].colour;
+                let availible = null; // Set the flag in null. Later will be changed onto a colour.
+                let i = 0; // set the iterator 
+                while (i < availibleColours.length && availible === null) { // run lopp. while i less
+                    // than length of array and availible was not found
+                    if (availibleColours[i].availible) { // When the availible colour is found 
+                        availible = availibleColours[i].colour; // set availible colour
                     }
                     i++;
                 }
-                newData.backgroundColor = availible;
+                newData.backgroundColor = availible; // set backgroound colour of the item to be dislayed
 
-                setData(prevState => ({
+                setData(prevState => ({ // this function updates the informatiion inside the chart
                     ...prevState,
                     datasets: [...prevState.datasets, newData]
                 }));
 
                 const updatedColours = [...availibleColours];
-                updatedColours[i - 1].availible = false;
-                setAvailibleColours(updatedColours)
+                updatedColours[i - 1].availible = false; // Set the selected colour availibility to false
+                setAvailibleColours(updatedColours) // save it 
             } else {
-                setLimAlert(true)
-                setTimeout(() => {
-                    setLimAlert(false)
-                }, 4000)
+                setAlert() // set alert
             }
         } else {
-            setExistAlert(true)
-            setTimeout(() => {
-                setExistAlert(false)
-            }, 4000)
+            setAlert()
         }
     }
 
-    const onDeleteProduct = (id, colour) => {
+    function setAlert() { // alert setting function
+        setExistAlert(true)
+        setTimeout(() => { // define how long the alert will be shown for
+            setExistAlert(false) // afte time is out remove the alert
+        }, 4000)
+    }
+
+    const onDeleteProduct = (id, colour) => { //take two parameters
         let length = data.datasets.filter(item => item.id !== id).length;
         setData(prevState => ({
             ...prevState,

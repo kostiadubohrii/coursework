@@ -45,13 +45,13 @@ const SearchPanel = (props) => {
 
 	//Searching -> 
 
-	function searchProduct(items, name) {
-		name = name.toLowerCase().replace(/\s/g, '');
-		if (name.length === 0) {
+	function searchProduct(items, name) { // sershing function. It takes items and name as arguments
+		name = name.toLowerCase().replace(/\s/g, ''); // Compresses the value which is typed in. By making it in lower case and removing all spaces
+		if (name.length === 0) { // If no name was provided, return all results.
 			return items;
 		}
 
-		return items.filter((item) => {
+		return items.filter((item) => { // Otherwise, filter all items by finding some similarities between serach value and items.s
 			return item.name.toLowerCase().replace(/\s/g, '').indexOf(name) > -1;
 		});
 	}

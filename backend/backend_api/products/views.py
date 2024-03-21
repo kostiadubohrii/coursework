@@ -24,7 +24,6 @@ def products_list(request, format=None):
     #             "status": "success",
     #             "data": serializer.data
     #         }, status=status.HTTP_201_CREATED)
-
         return Response({
                 "status": "failure",
                 "data": serializer.errors
@@ -70,7 +69,6 @@ def product_review_list(request, format=None):
             return Response({
                 "status": "failure",
                 "message": f"User with user id: {user_id} has alredy left review.",
-                "data": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
         else:
             if float(review) <= 5 and float(review) >= 0:

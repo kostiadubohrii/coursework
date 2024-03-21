@@ -73,7 +73,7 @@ def order_detail(request, id, format=None):
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
-def order_and_orderline_spread(request, format=None):
+def process_order(request, format=None):
     if request.method == 'POST':
         data = request.data
 
@@ -129,6 +129,29 @@ def order_and_orderline_spread(request, format=None):
                     "message": f"Incorrect total price. Must be {internal_product_price}"
                 },  status=status.HTTP_400_BAD_REQUEST)
 
+        for item in product_ordered: 
+            productId = item['product']
+            productQuantity = item['quantity']
+
+            product = Product.objects.get(pk=productId)
+
+            lefts = product.leftInStock - productQuantity
+
+            if lefts < 0: 
+                return Response({
+                    "status": "failure",
+                    "message": f'The product {product.name} with ID {productId} is out of stock'
+                },  status=status.HTTP_400_BAD_REQUEST)
+
+            if lefts > product.minimumAmount:
+                product.leftInStock = lefts
+            else:
+                newLefts = lefts
+                while newLefts <= product.minimumAmount:
+                    newLefts += product.topUpAmount
+
+                product.leftInStock = newLefts
+                product.save()
         
         if order_serializer.is_valid():
             if not len(error_message):
@@ -158,31 +181,7 @@ def order_and_orderline_spread(request, format=None):
                 "message": order_serializer.errors
             },  status=status.HTTP_400_BAD_REQUEST)
 
-    for item in product_ordered: 
-        productId = item['product']
-        productQuantity = item['quantity']
-
-        product = Product.objects.get(pk=productId)
-
-        lefts = product.leftInStock - productQuantity
-
-        if lefts < 0: 
-            return Response({
-                "status": "failure",
-                "message": f'The product {product.name} with ID {productId} is out of stock'
-            },  status=status.HTTP_400_BAD_REQUEST)
-
-        if lefts > product.minimumAmount:
-            product.leftInStock = lefts
-        else:
-            newLefts = lefts
-            while newLefts <= product.minimumAmount:
-                newLefts += product.topUpAmount
-
-            product.leftInStock = newLefts
-            product.save()
-            
     return Response({
-        "status": "success",
-        "message": "Order has been created"
-    }, status=status.HTTP_201_CREATED)
+            "status": "success",
+            "message": "Order has been created"
+        }, status=status.HTTP_201_CREATED)

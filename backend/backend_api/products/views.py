@@ -57,6 +57,12 @@ def product_detail(request, id, format=None):
                 "data": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
 
+def validateReview(review):
+    if float(review) <= 5 and float(review) >= 0:
+        return True
+    else:
+        return False
+        
 
 @api_view(['POST', 'GET'])
 def product_review_list(request, format=None):
@@ -71,7 +77,7 @@ def product_review_list(request, format=None):
                 "message": f"User with user id: {user_id} has alredy left review.",
             }, status=status.HTTP_400_BAD_REQUEST)
         else:
-            if float(review) <= 5 and float(review) >= 0:
+            if validateReview(review):
                 serializer = ReviewSerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()
@@ -82,15 +88,9 @@ def product_review_list(request, format=None):
                     }, status=status.HTTP_201_CREATED)
             else:
                 return Response({
-                        "status": "failure",
-                        "message": "Review field must be in range 0 to 5",
-                        "data": serializer.errors
-                    }, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({
-                "status": "failure",
-                "data": serializer.errors
-            }, status=status.HTTP_400_BAD_REQUEST)
+                            "status": "failure",
+                            "message": "Review field must be in range 0 to 5",
+                        }, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
         reviews = Reviews.objects.all()
@@ -99,7 +99,7 @@ def product_review_list(request, format=None):
                 "status": "success",
                 "data": serializer.data
             }, status=status.HTTP_200_OK)
-    
+    serializer = ReviewSerializer(data=data)
     return Response({
                 "status": "failure",
                 "data": serializer.errors
@@ -123,19 +123,32 @@ def product_reviews_detail(request, id, format=None):
                 "data": serializer.data
             }, status=status.HTTP_200_OK)
     elif request.method == 'PATCH':
-        serializer = ReviewSerializer(review, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            product_id = Reviews.objects.get(pk=id).product.id
-            updateMeanReview(product_id)
-            return Response({
-                "status": "success",
-                "data": serializer.data
-            }, status=status.HTTP_200_OK)
-        return Response({
-                "status": "failure",
-                "data": serializer.errors
+        if 'review' in request.data:
+            if validateReview(request.data['review']):
+                serializer = ReviewSerializer(review, data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    product_id = Reviews.objects.get(pk=id).product.id
+                    updateMeanReview(product_id)
+                    return Response({
+                        "status": "success",
+                        "data": serializer.data
+                    }, status=status.HTTP_200_OK)
+                return Response({
+                        "status": "failure",
+                        "data": serializer.errors
+                    }, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({
+                    "status": "failure",
+                    "message": "Review field must be in range 0 to 5",
             }, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({
+                "status": "failure",
+                "message": "A review's data can not be changed "
+            }, status=status.HTTP_400_BAD_REQUEST)
+            
     elif request.method == 'DELETE':
         review.delete()
         return Response({}, status=status.HTTP_204_NO_CONTENT)

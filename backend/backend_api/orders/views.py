@@ -97,6 +97,15 @@ def process_order(request, format=None):
         products_all = Product.objects.all()
 
         product_ordered = order_line_data.get('products')
+
+        for product in product_ordered: 
+            try: 
+                aproduct = Product.objects.get(pk=product['product'])
+            except:
+                return Response({
+                    "status": "failure",
+                    "message": f"Product with id - {product['product']} does not exist"
+                }, status=status.HTTP_400_BAD_REQUEST)
         
         internal_product_price = 0
 

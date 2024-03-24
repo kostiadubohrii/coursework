@@ -60,18 +60,17 @@ const ChartProductRevenue = () => {
                 updatedColours[i - 1].availible = false; // Set the selected colour availibility to false
                 setAvailibleColours(updatedColours) // save it 
             } else {
-                setAlert() // set alert
+                setLimAlert(true)
+                setTimeout(() => { // define how long the alert will be shown for
+                    setLimAlert(false) // afte time is out remove the alert
+                }, 4000)
             }
         } else {
-            setAlert()
+            setExistAlert(true)
+            setTimeout(() => { // define how long the alert will be shown for
+                setExistAlert(false) // afte time is out remove the alert
+            }, 4000)
         }
-    }
-
-    function setAlert() { // alert setting function
-        setExistAlert(true)
-        setTimeout(() => { // define how long the alert will be shown for
-            setExistAlert(false) // afte time is out remove the alert
-        }, 4000)
     }
 
     const onDeleteProduct = (id, colour) => { //take two parameters

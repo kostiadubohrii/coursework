@@ -8,7 +8,7 @@ from orders.models import Order
 
 class OrderLine(models.Model):
     orderLineId = models.AutoField(primary_key=True)
-    orderId = models.ForeignKey(Order, blank=True, null=True, default=None, on_delete=models.CASCADE)
+    orderId = models.ForeignKey(Order, blank=False, null=False, default=None, on_delete=models.CASCADE)
     totalPrice = models.FloatField(blank=False, null=False, default=None)
 
     def __str__(self):

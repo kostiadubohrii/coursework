@@ -7,7 +7,7 @@ from users.models import User
 # python manage.py runserver 
 
 class Category(models.Model):
-   category = models.CharField(max_length=86, blank=True, null=True, default=None,)
+   category = models.CharField(max_length=86, blank=False, null=False, default="")
    isActive = models.BooleanField(default=True)
 
    def __str__(self):
@@ -18,19 +18,19 @@ class Category(models.Model):
       verbose_name_plural = 'Categories'
       
 class Product(models.Model):
-   name = models.CharField(max_length=64, blank=True, null=True, default=None)
-   description = models.TextField(blank=True, null=True, default="- Due to the developing, no description is added to products")
-   category = models.ForeignKey(Category, blank=True, null=True, default=None, on_delete=models.SET_NULL)
-   price = models.IntegerField(blank=True, null=True, default=None)
-   oldPrice = models.IntegerField(blank=True, null=True, default=None)
+   name = models.CharField(max_length=64, blank=False, null=False, default="")
+   description = models.TextField(blank=False, null=False, default="- Due to the developing, no description is added to products")
+   category = models.ForeignKey(Category, blank=False, null=True, default=None, on_delete=models.SET_NULL)
+   price = models.IntegerField(blank=False, null=False, default=0)
+   oldPrice = models.IntegerField(blank=False, null=False, default=0)
    isApple = models.BooleanField(default=False)
    isActive = models.BooleanField(default=True)
    mainImage = models.ImageField(upload_to='Images/', default='Images/None/No0img.jpg')
    meanReview = models.FloatField(blank=False, null=False, default=0)
    created_at = models.DateTimeField(auto_now_add=True)
-   leftInStock = models.IntegerField(blank=True, null=True, default=5)
-   minimumAmount = models.IntegerField(blank=True, null=True, default=4)
-   topUpAmount = models.IntegerField(blank=True, null=True, default=2)
+   leftInStock = models.IntegerField(blank=False, null=False, default=5)
+   minimumAmount = models.IntegerField(blank=False, null=False, default=4)
+   topUpAmount = models.IntegerField(blank=False, null=False, default=2)
               
    def __str__(self):
       return "%s" % self.name
@@ -64,9 +64,9 @@ class Product(models.Model):
 
 
 class Reviews(models.Model):
-   product = models.ForeignKey(Product, blank=True, null=True, default=None, on_delete=models.CASCADE)
-   user = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE)
-   review = models.FloatField(blank=True, null=True, default=None)
+   product = models.ForeignKey(Product, blank=False, null=False, default=None, on_delete=models.CASCADE)
+   user = models.ForeignKey(User, blank=False, null=False, default=None, on_delete=models.CASCADE)
+   review = models.FloatField(blank=False, null=False, default=0)
    posted_on = models.DateTimeField(auto_now_add=True)
 
    def __str__(self):

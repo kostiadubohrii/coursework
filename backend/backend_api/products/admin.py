@@ -5,7 +5,8 @@ from products.models import *
 #     extra = 0
 
 class ProductAdmin (admin.ModelAdmin):
-    list_display = [field.name for field in Product._meta.fields]
+    list_display = [field.name for field in Product._meta.fields if field.name != 'created_at']
+    exclude = ("meanReview",)
     # inlines = [ProductImageInline]
 
     class Meta:
@@ -43,7 +44,7 @@ admin.site.register(Category, CategoryAdmin)
 
 
 class ReviewAdmin (admin.ModelAdmin):
-    list_display = [field.name for field in Reviews._meta.fields]
+    list_display = [field.name for field in Reviews._meta.fields if field.name != "posted_on"]
 
     class Meta:
         model = Reviews

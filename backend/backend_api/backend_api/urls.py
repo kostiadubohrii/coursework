@@ -16,10 +16,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/v1/products/', products_list),
-    path('api/v1/products/<int:id>', product_detail),
+    path('api/v1/products/<int:id>/', product_detail),
 
     path('api/v1/categories/', categories_list),
-    path('api/v1/categories/<int:id>', category_details),
+    path('api/v1/categories/<int:id>/', category_details),
 
     path('api/v1/users/', users_list),
     path('api/v1/users/<int:id>/', user_detail),
@@ -32,7 +32,7 @@ urlpatterns = [
     path('api/v1/orders/', process_order),
 
     path('api/v1/products/reviews/', product_review_list),
-    path('api/v1/products/reviews/<int:id>', product_reviews_detail), 
+    path('api/v1/products/reviews/<int:id>/', product_reviews_detail), 
 
     path('api/v1/statistics/', product_statistics),
     path('api/v1/years/', years)

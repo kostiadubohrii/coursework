@@ -21,3 +21,6 @@ def statistics_data(request):
     }
       # Replace YourModel with your actual model
     return JsonResponse(context, safe=False)
+
+def documentation(request):
+    return render(request, 'documentation/documentation.html')

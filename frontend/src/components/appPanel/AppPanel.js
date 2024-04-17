@@ -9,12 +9,12 @@ const AppPanel = () => {
                 Administration
             </div>
             <div className="header_links">
-                <a href="http://127.0.0.1:8000/admin/"> HOME </a>
+                <a href="http://16.171.199.194:8000/admin/"> HOME </a>
                 /
-                <a href="http://localhost:3000/"> STATISTICS </a>
+                <a href="https://statistics-b5278.web.app/"> STATISTICS</a>
             </div>
         </main>
     )
-}   
+}
 
 export default AppPanel;

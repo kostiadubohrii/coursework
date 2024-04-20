@@ -23,4 +23,4 @@ def statistics_data(request):
     return JsonResponse(context, safe=False)
 
 def documentation(request):
-    return render(request, 'documentation/documentation.html')
+    return render(request, 'documentation.html',  locals())

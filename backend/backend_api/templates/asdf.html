@@ -1,0 +1,38 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingTen">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+            <span class="badge bg-primary me-2">GET</span> /v1/categories/ - Fetches list of categories
+        </button>
+    </h2>
+    <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <p>
+                <strong>Response</strong>
+                <br>
+                Each category object in the response array will have the following parameters:
+                <br>
+                <ul>
+                    <li><strong>"id"</strong> (integer): The ID of the category.</li>
+                    <li><strong>"category"</strong> (string): The name of the category.</li>
+                    <li><strong>"isActive"</strong> (boolean): The status of the category.</li>
+                </ul>    
+                <strong>Response example</strong>
+                <pre><code class="language-json hljs-dark">
+{
+    "status": "success",
+    "data": [
+        {
+            "id": 1,
+            "category": "Wireless headphones",
+            "isActive": true
+        },
+        ...
+    ]
+}
+                </code></pre>
+                
+            </p>
+      </div>
+    </div>
+</div>
+

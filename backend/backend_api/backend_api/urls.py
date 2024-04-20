@@ -14,7 +14,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', views.documentation),
+    path('api/docs/', views.documentation, name='docs'),
+    # path('api/updates/', views.documentation, name='docs'),
 
     path('api/v1/products/', products_list),
     path('api/v1/products/<int:id>/', product_detail),
